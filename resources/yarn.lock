@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@citizenfx/client@^1.0.3281-1":
+  version "1.0.3281-1"
+  resolved "https://registry.yarnpkg.com/@citizenfx/client/-/client-1.0.3281-1.tgz#e26d85cb3686f8e0c85fdb86dca159e027358418"
+  integrity sha512-hZ82+Z1CfFFWYqTohDc9K2Cn00NAGQ4Hv34JH9kQpMsA2talHVUXjZOZ78/Dtk0DcGVA2beSYfA8fMm6ZrKmHg==
+
 "@citizenfx/client@^2.0.4355-1":
   version "2.0.4355-1"
   resolved "https://registry.npmjs.org/@citizenfx/client/-/client-2.0.4355-1.tgz"
@@ -519,6 +524,13 @@ find-up@^4.0.0:
   dependencies:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
+
+fivem-js@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/fivem-js/-/fivem-js-1.5.2.tgz#fe19bb7a194afa57c94575447476b8e62a949b8e"
+  integrity sha512-PONuAo9djL3UnEcVHxxLLHClQnpnLbiJXu2fNNGvi5Li/7IKfwn5PMHERrjr1Sq+oWeoao100LlsnlnA1mGCew==
+  dependencies:
+    "@citizenfx/client" "^1.0.3281-1"
 
 fs.realpath@^1.0.0:
   version "1.0.0"

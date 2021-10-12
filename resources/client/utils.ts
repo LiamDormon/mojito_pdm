@@ -8,6 +8,16 @@ class Utils {
     });
   };
 
+  FomatTime = (time: number) => {
+    let minutes = Math.floor(time / 60);
+    let seconds = time - minutes * 60;
+
+    if (seconds < 10) {
+      return minutes + ':' + '0' + seconds;
+    }
+    return minutes + ':' + seconds;
+  };
+
   Open = async (open: boolean): Promise<void> => {
     const Ped: number = PlayerPedId();
     if (open) {
@@ -62,7 +72,7 @@ class Utils {
       setTimeout(() => {
         SetNuiFocus(true, true);
         this.SendUIMessage<boolean>('setVisible', true);
-      }, 1000);
+      }, 500);
     } else {
       const ServerId = GetPlayerServerId(PlayerId());
       const TabletProp = Player(ServerId).state['PDMTabletModel'];
@@ -85,8 +95,8 @@ class Utils {
           false,
           false,
         );
-        SetNuiFocus(false, false)
-      }, 1000);
+        SetNuiFocus(false, false);
+      }, 500);
     }
   };
 }
