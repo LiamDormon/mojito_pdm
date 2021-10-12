@@ -4,11 +4,12 @@ import {useNuiEvent} from "../hooks/useNuiEvent";
 import {debugData} from "../utils/debugData";
 import {useExitListener} from "../hooks/useExitListener";
 import Box from '@mui/material/Box';
-import {createTheme, ThemeProvider, styled} from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Catalogue from "./Catalogue";
 import Paper from '@mui/material/Paper'
-import darkScrollbar from '@mui/material/darkScrollbar';
 import {blue, grey} from '@mui/material/colors';
+import {CssBaseline} from "@mui/material";
+
 
 debugData([
     {
@@ -81,6 +82,7 @@ const App: React.FC = () => {
                         </Paper>
                     </Box>
                 </div>
+                <CssBaseline />
             </ThemeProvider>
         </ColorModeContext.Provider>
     );

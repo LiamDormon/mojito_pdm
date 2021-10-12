@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/App.css"],"names":[],"mappings":"AAAA,WACE,WAAY,CACZ,YAAa,CACb,YAAa,CACb,kBAAmB,CACnB,oBACF","file":"main.2545d608.chunk.css","sourcesContent":[".container {\r\n  width: 100vw;\r\n  height: 100vh;\r\n  display: grid;\r\n  place-items: center;\r\n  place-content: center;\r\n}"]}

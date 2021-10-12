@@ -1,7 +1,7 @@
 {
   "name": "web",
   "version": "0.1.0",
-  "homepage": "web/build",
+  "homepage": "ui/build",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.4.1",
