@@ -12,6 +12,7 @@
   "dependencies": {
     "@citizenfx/client": "^2.0.4355-1",
     "@citizenfx/server": "^2.0.4355-1",
+    "@project-error/pe-utils": "^0.2.7",
     "@types/node": "^16.3.1",
     "qbcore.js": "^1.2.2"
   },

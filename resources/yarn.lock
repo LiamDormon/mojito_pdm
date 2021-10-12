@@ -17,6 +17,11 @@
   resolved "https://registry.npmjs.org/@discoveryjs/json-ext/-/json-ext-0.5.5.tgz"
   integrity sha512-6nFkfkmSeV/rqSaS4oWHgmpnYw194f6hmWF5is6b0J1naJZoiD0NTc9AiUwPHvWsowkjuHErCZT1wa0jg+BLIA==
 
+"@project-error/pe-utils@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@project-error/pe-utils/-/pe-utils-0.2.7.tgz#2060c3494c15908e653351378f3376aafa064d6a"
+  integrity sha512-O2Q2u5jhiUxdsScExaWmOKEQZ+t62I5WhgRya4msWvTRIPagRCjD9oUGjCFRkKGbP1cNswRShxjE+4LGgsCRDA==
+
 "@sindresorhus/df@^1.0.1":
   version "1.0.1"
   resolved "https://registry.npmjs.org/@sindresorhus/df/-/df-1.0.1.tgz"

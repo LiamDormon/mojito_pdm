@@ -1,55 +1,57 @@
-const webpack = require("webpack");
-const path = require("path");
-const RemovePlugin = require("remove-files-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin")
+const webpack = require('webpack');
+const path = require('path');
+const RemovePlugin = require('remove-files-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
-const buildPath = path.resolve(__dirname, "dist");
+const buildPath = path.resolve(__dirname, 'dist');
 
 const server = {
-  entry: "./server/server.ts",
+  entry: './server/server.ts',
   module: {
     rules: [
       {
         test: /\.ts$/,
-        use: ["ts-loader"],
+        use: ['ts-loader'],
         exclude: /node_modules/,
       },
     ],
   },
   plugins: [
-    new webpack.DefinePlugin({ "global.GENTLY": false }),
+    new webpack.DefinePlugin({ 'global.GENTLY': false }),
     new RemovePlugin({
       before: {
-        include: [path.resolve(buildPath, "server")],
+        include: [path.resolve(buildPath, 'server')],
       },
       watch: {
-        include: [path.resolve(buildPath, "server")],
+        include: [path.resolve(buildPath, 'server')],
       },
     }),
   ],
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin({
-      extractComments: false
-    })]
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+      }),
+    ],
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ['.ts', '.js'],
   },
   output: {
-    filename: "[contenthash].server.js",
-    path: path.resolve(buildPath, "server"),
+    filename: '[contenthash].server.js',
+    path: path.resolve(buildPath, 'server'),
   },
-  target: "node",
+  target: 'node',
 };
 
 const client = {
-  entry: "./client/client.ts",
+  entry: './client/client.ts',
   module: {
     rules: [
       {
         test: /\.ts$/,
-        use: ["ts-loader"],
+        use: ['ts-loader'],
         exclude: /node_modules/,
       },
     ],
@@ -57,25 +59,27 @@ const client = {
   plugins: [
     new RemovePlugin({
       before: {
-        include: [path.resolve(buildPath, "client")],
+        include: [path.resolve(buildPath, 'client')],
       },
       watch: {
-        include: [path.resolve(buildPath, "client")],
+        include: [path.resolve(buildPath, 'client')],
       },
     }),
   ],
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin({
-      extractComments: false
-    })]
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+      }),
+    ],
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ['.ts', '.js'],
   },
   output: {
-    filename: "[contenthash].client.js",
-    path: path.resolve(buildPath, "client"),
+    filename: '[contenthash].client.js',
+    path: path.resolve(buildPath, 'client'),
   },
 };
 
