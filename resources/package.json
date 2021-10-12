@@ -1,0 +1,27 @@
+{
+  "name": "mojito_pdm",
+  "version": "2.0.0",
+  "main": "index.js",
+  "author": "Mojito",
+  "license": "CC-BY-3.0",
+  "scripts": {
+    "build": "webpack --mode development --color --progress",
+    "watch": "webpack --mode development --watch",
+    "format": "prettier --write . --config .prettierrc"
+  },
+  "dependencies": {
+    "@citizenfx/client": "^2.0.4355-1",
+    "@citizenfx/server": "^2.0.4355-1",
+    "@types/node": "^16.3.1",
+    "qbcore.js": "^1.2.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.4.1",
+    "remove-files-webpack-plugin": "^1.4.4",
+    "terser-webpack-plugin": "^5.2.4",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.5",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0"
+  }
+}
