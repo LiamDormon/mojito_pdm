@@ -25,9 +25,9 @@ class Utils {
       while (!HasAnimDictLoaded('amb@code_human_in_bus_passenger_idles@female@tablet@base')) {
         await this.Wait(10);
       }
-      const ServerId = GetPlayerServerId(PlayerId());
       const TabletModel = GetHashKey('prop_cs_tablet');
-      Player(ServerId).state['PDMTabletModel'] = CreateObject(
+      // TODO: Check if already exists
+      Player(-1).state['PDMTabletModel'] = CreateObject(
         TabletModel,
         1.0,
         1.0,
@@ -39,7 +39,7 @@ class Utils {
       const bone = GetPedBoneIndex(Ped, 60309);
 
       AttachEntityToEntity(
-        Player(ServerId).state['PDMTabletModel'],
+        Player(-1).state['PDMTabletModel'],
         Ped,
         bone,
         0.03,
@@ -74,8 +74,7 @@ class Utils {
         this.SendUIMessage<boolean>('setVisible', true);
       }, 500);
     } else {
-      const ServerId = GetPlayerServerId(PlayerId());
-      const TabletProp = Player(ServerId).state['PDMTabletModel'];
+      const TabletProp = Player(-1).state['PDMTabletModel'];
 
       this.SendUIMessage<boolean>('setVisible', false);
 
