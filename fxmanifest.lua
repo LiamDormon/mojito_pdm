@@ -4,14 +4,13 @@ game 'gta5'
 
 name 'mojito_pdm'
 
-client_script 'dist/client/*.client.js'
+client_script 'resources/dist/client/*.client.js'
 
-server_script 'dist/server/*.server.js'
+server_script 'resources/dist/server/*.server.js'
 
-ui_page 'html/index.html'
+ui_page 'ui/build/index.html'
 
 files {
-  'html/index.html',
-  'html/index.css',
-  'html/index.js'
+  'ui/build/index.html',
+  'ui/build/**/*'
 }
