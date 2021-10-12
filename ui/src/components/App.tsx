@@ -47,6 +47,9 @@ const App: React.FC = () => {
                             text: {
                                 primary: grey[900],
                                 secondary: grey[800],
+                            },
+                            background: {
+                                default: "transparent"
                             }
                         }
                         : {
@@ -56,6 +59,9 @@ const App: React.FC = () => {
                                 primary: '#fff',
                                 secondary: grey[500],
                             },
+                            background: {
+                                default: "transparent"
+                            }
                         }),
                 },
             }),
