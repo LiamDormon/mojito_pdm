@@ -47,3 +47,29 @@ To open trigger the event `mojito_pdm:client:open`, you can do this with 3D text
 		distance=1.0
 	}
 ```
+
+## Building
+
+### Yarn:
+
+To build the UI:
+`cd ui` -> `yarn` -> `yarn build`
+
+To build the script:
+`cd resources` -> `yarn` -> `yarn build`
+
+### NPM
+
+To build the UI:
+
+`cd ui` -> `npm i` -> `npm run build`
+
+To build the script:
+
+`cd resources` -> `npm i` -> `npm run build`
+
+## Developing
+
+Issues and pull requests are welcomed.
+
+This project is using [Project Error's React Boilerplate](https://github.com/project-error/fivem-react-boilerplate-lua) which comes with useful utilities, use `yarn start` to start the dev server or `yarn start:game` to open the dev server and build at the same time.
