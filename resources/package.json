@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "main": "index.js",
   "author": "Mojito",
-  "license": "CC-BY-3.0",
+  "license": "CC-BY-SA-4.0",
   "scripts": {
     "build": "webpack --mode development --color --progress",
     "watch": "webpack --mode development --watch",
