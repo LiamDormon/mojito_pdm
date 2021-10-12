@@ -29,11 +29,6 @@ const VehCard: React.FC<Car> = ({
 }) => {
     const theme = useTheme();
 
-    useEffect(() => {
-        console.log(name)
-    }, [])
-
-
     const [open, setOpen] = useState<boolean>(false)
     const testDrive = () => {
         fetchNui("test_drive", {vehicle: spawncode}).then()
