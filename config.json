@@ -4,5 +4,6 @@
   "temporary": {
     "enabled": true,
     "time": 120
-  }
+  },
+  "canbuy": true
 }

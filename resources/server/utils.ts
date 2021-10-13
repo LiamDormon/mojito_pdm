@@ -1,4 +1,6 @@
-class Utils {
+import {ServerUtils} from '@project-error/pe-utils'
+
+class Utils extends ServerUtils {
   Wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
   random = (min: number, max: number): number => Math.floor(Math.random() * (max - min)) + min;

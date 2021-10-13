@@ -1,13 +1,16 @@
 import { QBCore } from './qbcore';
 import { utils } from './utils';
 import Config from './config';
+import {IConfig} from "../types";
+import {ServerPromiseResp} from "@project-error/pe-utils";
+
 
 const CREATE_AUTOMOBILE = utils.joaat('CREATE_AUTOMOBILE');
 
 onNet('mojito_pdm:server:testdrive', async (vehicle: string) => {
   const src = global.source.toString();
   const srcPed = GetPlayerPed(src);
-  const [srcX, srcY, srcZ] = GetEntityCoords(srcPed);
+  const [srcX, srcY] = GetEntityCoords(srcPed);
   const distance = Math.hypot(srcX - Config.pdmlocation.x, srcY - Config.pdmlocation.y);
 
   if (distance < 25.0) {
@@ -56,3 +59,12 @@ onNet('mojito_pdm:server:testdrive', async (vehicle: string) => {
     }
   }
 });
+
+utils.onNetPromise<unknown, IConfig>('fetch:config', (req, res) => {
+  const respData: ServerPromiseResp<IConfig> = {
+    data: Config,
+    status: "ok"
+  }
+
+  res(respData)
+})

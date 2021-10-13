@@ -1,6 +1,7 @@
-import React, {Dispatch, useState, SetStateAction} from 'react'
+import React, {Dispatch, useState, useEffect, SetStateAction} from 'react'
 import {useTheme} from "@mui/material/styles";
 import {Button, Stack, Typography, LinearProgress} from '@mui/material'
+import {fetchNui} from "../utils/fetchNui"
 
 function getModalStyle() {
     return {
@@ -26,6 +27,16 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
     }
     const [modalStyle] = useState(getModalStyle)
     const theme = useTheme()
+    const [buyEnabled, setBuyEnabled] = useState<boolean>(false)
+
+    useEffect(() => {
+        fetchNui<boolean>("fetch:canbuy").then((data) => {
+            console.log(data)
+            setBuyEnabled(data)
+        }).catch(() => {
+            setBuyEnabled(true)
+        })
+    }, [])
 
     return (
         <>
@@ -56,7 +67,7 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
                 </p>
                 <Stack direction="row" spacing={2}>
                     <Button size="small" variant="outlined" color="error" onClick={handleClose}>Close</Button>
-                    <Button size="small" variant="outlined" color="primary" onClick={handleClose}>Buy</Button>
+                    { buyEnabled && <Button size="small" variant="outlined" color="primary" onClick={handleClose}>Buy</Button> }
                 </Stack>
             </div>
         </>

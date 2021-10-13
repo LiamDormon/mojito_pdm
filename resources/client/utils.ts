@@ -1,4 +1,6 @@
-class Utils {
+import {ClientUtils} from "@project-error/pe-utils";
+
+class Utils extends ClientUtils {
   private Wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
   SendUIMessage = <T>(action: string, data: T) => {
@@ -18,7 +20,7 @@ class Utils {
     return minutes + ':' + seconds;
   };
 
-  Open = async (open: boolean): Promise<void> => {
+  Open = async (open: boolean) => {
     const Ped: number = PlayerPedId();
     if (open) {
       RequestAnimDict('amb@code_human_in_bus_passenger_idles@female@tablet@base');
@@ -100,4 +102,4 @@ class Utils {
   };
 }
 
-export const PDM = new Utils();
+export const utils = new Utils();
