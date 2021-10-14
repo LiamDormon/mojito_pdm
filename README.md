@@ -2,8 +2,12 @@
 
 React / Typescript Catalogue for PDM, complete with test driving and purchasing
 
+![Light Theme](https://i.imgur.com/47YYveC.png)
+![Dark Theme](https://i.imgur.com/PCP4U5C.png)
+
 ## Features
 - High Performance Material UI
+- Filter vehicles by category
 - Pre-configured vehicles and prices
 - Test Driving with configurable locations and timer
 - Buy vehicles from the catalogue
@@ -19,7 +23,7 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 {
   "pdmlocation": {"x": -56.54, "y": -1096.18, "z": 26.42},                            // Location to teleport the player back to
   "testdrivespawn": {"x": -16.84, "y":  -1105.11, "z": 26.36, "h": 158.76},           // Location to spawn the car for test drives
-    "buylocation": {"x": -16.84, "y":  -1105.11, "z": 26.36, "h": 158.76},	      // Location to spawn the car when it is purchased
+  "buylocation": {"x": -16.84, "y":  -1105.11, "z": 26.36, "h": 158.76},	      // Location to spawn the car when it is purchased
   "temporary": {
     "enabled": true,                                                                  // Enable time limit on test drives
     "time": 120                                                                       // Time (in seconds) of the test drive
