@@ -47,3 +47,8 @@ setImmediate(async () => {
 RegisterNuiCB("fetch:canbuy", async (data, cb) => {
   cb(canbuy)
 })
+
+RegisterNuiCB("buy_vehicle", (data, cb) => {
+  const vehicle = data.vehicle
+  cb({})
+})

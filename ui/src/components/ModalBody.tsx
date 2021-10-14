@@ -1,7 +1,9 @@
 import React, {Dispatch, useState, useEffect, SetStateAction} from 'react'
 import {useTheme} from "@mui/material/styles";
-import {Button, Stack, Typography, LinearProgress} from '@mui/material'
+import {Button, Stack, Typography, LinearProgress, Slide, Dialog} from '@mui/material'
 import {fetchNui} from "../utils/fetchNui"
+import { TransitionProps } from '@mui/material/transitions';
+import DialogueBody from "./DialogueBody";
 
 function getModalStyle() {
     return {
@@ -11,6 +13,15 @@ function getModalStyle() {
     }
 }
 
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children?: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
 interface Modal {
     name: string,
     brand: string,
@@ -19,15 +30,21 @@ interface Modal {
     trunkspace: string,
     setOpen: Dispatch<SetStateAction<boolean>>
     performance: CarPerformance
+    spawncode: string
 }
 
-const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace, setOpen, performance}) => {
-    const handleClose = () => {
-        setOpen(false)
-    }
+const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace, setOpen, performance, spawncode}) => {
     const [modalStyle] = useState(getModalStyle)
     const theme = useTheme()
     const [buyEnabled, setBuyEnabled] = useState<boolean>(false)
+    const [dialogueOpen, setDialogueOpen] = useState<boolean>(false)
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+    const handleDialogueClose = () => {
+        setDialogueOpen(false)
+    }
 
     useEffect(() => {
         fetchNui<boolean>("fetch:canbuy").then((data) => {
@@ -67,8 +84,20 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
                 </p>
                 <Stack direction="row" spacing={2}>
                     <Button size="small" variant="outlined" color="error" onClick={handleClose}>Close</Button>
-                    { buyEnabled && <Button size="small" variant="outlined" color="primary" onClick={handleClose}>Buy</Button> }
+                    { buyEnabled && <Button size="small" variant="outlined" color="primary" onClick={() => setDialogueOpen(true)}>Buy</Button> }
                 </Stack>
+                <Dialog
+                    open={dialogueOpen}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleDialogueClose}
+                >
+                    <DialogueBody
+                        spawncode={spawncode}
+                        price={price}
+                        setDialogueOpen={setDialogueOpen}
+                    />
+                </Dialog>
             </div>
         </>
     )

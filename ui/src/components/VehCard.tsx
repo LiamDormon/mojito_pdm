@@ -89,6 +89,7 @@ const VehCard: React.FC<Car> = ({
                         trunkspace={trunkspace}
                         setOpen={setOpen}
                         performance={performance}
+                        spawncode={spawncode}
                     />}
                 </Modal>
             </CardActions>
