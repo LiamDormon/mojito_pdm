@@ -46,6 +46,10 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
         setDialogueOpen(false)
     }
 
+    // TODO: This needs to be done better
+    // I should look into using a state management library to use
+    // this as a global state instead of fetching every time I render
+    // the component
     useEffect(() => {
         fetchNui<boolean>("fetch:canbuy").then((data) => {
             console.log(data)
