@@ -64,6 +64,26 @@ const App: React.FC = () => {
                             }
                         }),
                 },
+                components: {
+                    MuiCssBaseline: {
+                        styleOverrides: {
+                            body: {
+                                scrollbarColor: "#6b6b6b #2b2b2b",
+                                "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+                                    backgroundColor: mode === "dark"? grey[800] : grey[200],
+                                },
+                                "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+                                    borderRadius: 8,
+                                    backgroundColor: grey[500],
+                                    minHeight: 24,
+                                },
+                                "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover": {
+                                    backgroundColor: grey[600],
+                                },
+                            },
+                        },
+                    },
+                },
             }),
         [mode],
     );
