@@ -6,21 +6,25 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 - High Performance Material UI
 - Pre-configured vehicles and prices
 - Test Driving with configurable locations and timer
+- Buy vehicles from the catalogue
 
 ## Planned Features
-- Buying Vehicles
 - Pull prices and trunk weight from shared.lua, for now these are static
+- Learn how to use state management libraries to fix the janky react code
+- Add the config option to restrict usage when car dealers are online
 
 ## Config
 
 ```js
 {
   "pdmlocation": {"x": -56.54, "y": -1096.18, "z": 26.42},                            // Location to teleport the player back to
-  "testdrivespawn": {"x": -16.84, "y":  -1105.11, "z": 26.36, "h": 158.76},           // Location to spawn the car
+  "testdrivespawn": {"x": -16.84, "y":  -1105.11, "z": 26.36, "h": 158.76},           // Location to spawn the car for test drives
+    "buylocation": {"x": -16.84, "y":  -1105.11, "z": 26.36, "h": 158.76},	      // Location to spawn the car when it is purchased
   "temporary": {
     "enabled": true,                                                                  // Enable time limit on test drives
     "time": 120                                                                       // Time (in seconds) of the test drive
-  }
+  },
+  "canbuy": true								      // Set to false to disable buying vehicles
 }
 ```
 
@@ -58,7 +62,7 @@ To build the UI:
 To build the script:
 `cd resources` -> `yarn` -> `yarn build`
 
-### NPM
+### NPM:
 
 To build the UI:
 
