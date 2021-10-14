@@ -12,21 +12,21 @@ interface DialogueBody {
     spawncode: string;
     price: string;
     setDialogueOpen: Dispatch<SetStateAction<boolean>>;
+    setModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DialogueBody: React.FC<DialogueBody> = ({spawncode, price, setDialogueOpen}) => {
+const DialogueBody: React.FC<DialogueBody> = ({spawncode, price, setDialogueOpen, setModalOpen}) => {
     const handleClose = () => {
         setDialogueOpen(false)
     }
 
     const handleAccept = () => {
         setDialogueOpen(false)
+        setModalOpen(false)
         // Send the event to buy the vehicle, then close the whole thing
         fetchNui("buy_vehicle", {
             vehicle: spawncode
         }).then(() => {
-            // TODO: Display success / fail message
-
             fetchNui("exit").then(() => {
                 window.dispatchEvent(
                     new MessageEvent("message", {

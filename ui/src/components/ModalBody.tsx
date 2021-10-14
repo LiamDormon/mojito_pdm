@@ -100,6 +100,7 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
                         spawncode={spawncode}
                         price={price}
                         setDialogueOpen={setDialogueOpen}
+                        setModalOpen={setOpen}
                     />
                 </Dialog>
             </div>

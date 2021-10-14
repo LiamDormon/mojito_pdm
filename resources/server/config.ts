@@ -1,4 +1,4 @@
-import {IConfig} from "../types";
+import { IConfig } from '../types';
 
 const Config: IConfig = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'config.json'));
 

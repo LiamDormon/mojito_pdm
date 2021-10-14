@@ -1,7 +1,9 @@
 import { QBCore } from './qbcore';
 import { utils } from './utils';
-import { RegisterNuiCB } from '@project-error/pe-utils';
+import { RegisterNuiCB, ServerPromiseResp } from '@project-error/pe-utils';
 import { Timerbar } from 'fivem-js';
+import { IConfig, Vector } from '../types';
+import { VehicleProperties } from 'qbcore.js/@types/client';
 
 on('mojito_pdm:client:open', () => {
   utils.Open(true);
@@ -37,18 +39,63 @@ onNet('mojito_pdm:client:start_testdrive', (time: number) => {
   }, 1000);
 });
 
-let canbuy: boolean = false
+let canbuy: boolean = false;
+let BuyLocation: Vector = { x: 0.0, y: 0.0, z: 0.0 };
 
 setImmediate(async () => {
-  const serverResp = await utils.emitNetPromise("fetch:config", {})
-  canbuy = serverResp.data.canbuy
-})
+  const serverResp = await utils.emitNetPromise<ServerPromiseResp<IConfig>>('fetch:config', {});
+  canbuy = serverResp.data.canbuy;
+  BuyLocation = serverResp.data.buylocation;
+});
 
-RegisterNuiCB("fetch:canbuy", async (data, cb) => {
-  cb(canbuy)
-})
+RegisterNuiCB('fetch:canbuy', async (data, cb) => {
+  cb(canbuy);
+});
 
-RegisterNuiCB("buy_vehicle", (data, cb) => {
-  const vehicle = data.vehicle
-  cb({})
-})
+RegisterNuiCB('buy_vehicle', async (data, cb) => {
+  const vehicle = data.vehicle;
+
+  if (!QBCore.Shared.Vehicles[vehicle]) {
+    return QBCore.Functions.Notify(
+      { caption: 'Something went wrong', text: 'This vehicle does not appear to exist' },
+      'error',
+    );
+  }
+
+  const serverResp = await utils.emitNetPromise<ServerPromiseResp<{ msg: string }>>(
+    'mojito_pdm:server:buyvehicle',
+    {
+      vehicle: vehicle,
+    },
+  );
+
+  const type: string = serverResp.status === 'ok' ? 'success' : 'error';
+  QBCore.Functions.Notify(serverResp.data.msg, type);
+
+  cb({});
+});
+
+interface incommingVehicleBought {
+  vehicle: string;
+  plate: string;
+}
+
+utils.registerRPCListener<incommingVehicleBought>('mojito_pdm:client:vehiclebought', (data) => {
+  let properties: VehicleProperties = null;
+  QBCore.Functions.SpawnVehicle(
+    data.vehicle,
+    (veh: number) => {
+      SetEntityHeading(veh, BuyLocation.h);
+      SetVehicleNumberPlateText(veh, data.plate);
+      SetEntityAsMissionEntity(veh, true, true);
+      SetPedIntoVehicle(PlayerPedId(), veh, -1);
+      global.exports['LegacyFuel'].SetFuel(veh, 100);
+      emit('vehiclekeys:client:SetOwner', data.plate);
+
+      properties = QBCore.Functions.GetVehicleProperties(veh);
+    },
+    BuyLocation,
+  );
+
+  return properties;
+});

@@ -948,10 +948,10 @@ punycode@^2.1.0:
   resolved "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-qbcore.js@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.npmjs.org/qbcore.js/-/qbcore.js-1.2.2.tgz"
-  integrity sha512-UGbvbPBSdxqvfF1EjcckF0B/TV4+cFA3RyDYS00m9yd0LnRu5yoX8OY5v1sCwxB0fp3aCBwFORIAvs19anfwFw==
+qbcore.js@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/qbcore.js/-/qbcore.js-1.2.3.tgz#1f35f31bdc46d77bd9e8d61bbc97c3a035be5d7a"
+  integrity sha512-eF4sDsuXmvL/T/ReOL7vTF/9QdSx58gOhmYhqDpTnTe8tmiCUmK1Rk01D2uakymXC4dpvYbNNvCfpCn/cg+eIw==
 
 randombytes@^2.1.0:
   version "2.1.0"

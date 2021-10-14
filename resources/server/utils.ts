@@ -1,4 +1,5 @@
-import {ServerUtils} from '@project-error/pe-utils'
+import { ServerUtils } from '@project-error/pe-utils';
+import { QBCore } from './qbcore';
 
 class Utils extends ServerUtils {
   Wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
@@ -21,6 +22,22 @@ class Utils extends ServerUtils {
     hash[0] += hash[0] << 15;
 
     return '0x' + hash[0].toString(16).toUpperCase();
+  };
+
+  GeneratePlate = async (): Promise<string> => {
+    let plate =
+      QBCore.Shared.RandomInt(1) +
+      QBCore.Shared.RandomStr(2) +
+      QBCore.Shared.RandomInt(2) +
+      QBCore.Shared.RandomStr(3);
+    plate = plate.toUpperCase();
+    const result = await global.exports.oxmysql.singleSync(
+      'SELECT plate FROM player_vehicles WHERE plate = ?',
+      [plate],
+    );
+
+    if (!result) return plate;
+    else return this.GeneratePlate();
   };
 }
 

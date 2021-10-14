@@ -1,9 +1,8 @@
 import { QBCore } from './qbcore';
 import { utils } from './utils';
 import Config from './config';
-import {IConfig} from "../types";
-import {ServerPromiseResp} from "@project-error/pe-utils";
-
+import { IConfig } from '../types';
+import { ServerPromiseResp } from '@project-error/pe-utils';
 
 const CREATE_AUTOMOBILE = utils.joaat('CREATE_AUTOMOBILE');
 
@@ -63,8 +62,111 @@ onNet('mojito_pdm:server:testdrive', async (vehicle: string) => {
 utils.onNetPromise<unknown, IConfig>('fetch:config', (req, res) => {
   const respData: ServerPromiseResp<IConfig> = {
     data: Config,
-    status: "ok"
-  }
+    status: 'ok',
+  };
 
-  res(respData)
-})
+  res(respData);
+});
+
+interface incommingBuyVeh {
+  vehicle: string;
+}
+
+interface outgoingBuyVeh {
+  msg: string;
+}
+
+utils.onNetPromise<incommingBuyVeh, outgoingBuyVeh>(
+  'mojito_pdm:server:buyvehicle',
+  async (req, res) => {
+    const src = req.source;
+    const vehicle = req.data.vehicle;
+
+    if (!QBCore.Shared.Vehicles[vehicle]) {
+      return res({
+        data: { msg: 'Vehicle does not exist' },
+        status: 'error',
+      });
+    }
+
+    const { price, shop, hash, name, brand } = QBCore.Shared.Vehicles[vehicle];
+
+    const Player = QBCore.Functions.GetPlayer(src);
+    const { bank, cash } = Player.PlayerData.money;
+
+    if (bank - price >= 0) {
+      Player.Functions.RemoveMoney('bank', price, 'vehicle-bought');
+      const plate = await utils.GeneratePlate();
+      const mods = await utils.callClientRPC('mojito_pdm:client:vehiclebought', src, {
+        vehicle: vehicle,
+        plate: plate,
+      });
+
+      global.exports.oxmysql.insert(
+        'INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [
+          Player.PlayerData.license,
+          Player.PlayerData.citizenid,
+          vehicle,
+          hash,
+          JSON.stringify(mods),
+          plate,
+          0,
+        ],
+      );
+
+      emit(
+        'qb-log:server:CreateLog',
+        'vehicleshop',
+        'Vehicle Purchased (PDM Catalogue)',
+        'green',
+        `**${GetPlayerName(
+          src.toString(),
+        )}** bought a ${name} ${brand} for $${price} from the bank`,
+      );
+
+      return res({
+        status: 'ok',
+        data: { msg: `Succesfully bought a new ${brand} ${name}` },
+      });
+    } else if (cash - price >= 0) {
+      Player.Functions.RemoveMoney('cash', price, 'vehicle-bought');
+      const plate = await utils.GeneratePlate();
+      const mods = await utils.callClientRPC('mojito_pdm:client:vehiclebought', src, {
+        vehicle: vehicle,
+        plate: plate,
+      });
+
+      global.exports.oxmysql.insert(
+        'INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [
+          Player.PlayerData.license,
+          Player.PlayerData.citizenid,
+          vehicle,
+          hash,
+          JSON.stringify(mods),
+          plate,
+          0,
+        ],
+      );
+
+      emit(
+        'qb-log:server:CreateLog',
+        'vehicleshop',
+        'Vehicle Purchased (PDM Catalogue)',
+        'green',
+        `**${GetPlayerName(src.toString())}** bought a ${name} ${brand} for $${price} with cash`,
+      );
+
+      return res({
+        status: 'ok',
+        data: { msg: `Succesfully bought a new ${brand} ${name}` },
+      });
+    } else {
+      return res({
+        status: 'error',
+        data: { msg: 'You have insufficient funds' },
+      });
+    }
+  },
+);

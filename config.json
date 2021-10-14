@@ -1,6 +1,7 @@
 {
   "pdmlocation": {"x": -56.54, "y": -1096.18, "z": 26.42},
   "testdrivespawn": {"x": -16.84, "y":  -1105.11, "z": 26.36, "h": 158.76},
+  "buylocation": {"x": -16.84, "y":  -1105.11, "z": 26.36, "h": 158.76},
   "temporary": {
     "enabled": true,
     "time": 120

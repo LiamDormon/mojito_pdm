@@ -15,7 +15,7 @@
     "@project-error/pe-utils": "^0.2.7",
     "@types/node": "^16.3.1",
     "fivem-js": "^1.5.2",
-    "qbcore.js": "^1.2.2"
+    "qbcore.js": "^1.2.3"
   },
   "devDependencies": {
     "prettier": "^2.4.1",

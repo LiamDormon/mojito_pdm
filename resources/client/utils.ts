@@ -1,4 +1,4 @@
-import {ClientUtils} from "@project-error/pe-utils";
+import { ClientUtils } from '@project-error/pe-utils';
 
 class Utils extends ClientUtils {
   private Wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
