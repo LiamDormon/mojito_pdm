@@ -10,9 +10,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import logo from '../logo.png';
-import {ColorModeContext} from "./App";
 import CategorySelect from "./CategorySelect";
 import {fetchNui} from "../utils/fetchNui";
+import GlobalState from "../state";
+import {useRecoilState} from "recoil";
 
 interface Header {
     cat: string;
@@ -21,7 +22,7 @@ interface Header {
 
 const Header: React.FC<Header> = (props) => {
     const theme = useTheme();
-    const colorMode = useContext(ColorModeContext);
+    const [colorMode, setColorMode] = useRecoilState(GlobalState.theme)
 
     const handleExit = () => {
         fetchNui("exit").then(() => {
@@ -38,6 +39,10 @@ const Header: React.FC<Header> = (props) => {
         })
     }
 
+    const handleThemeswitch = () => {
+        colorMode == "light" ? setColorMode("dark") : setColorMode("light")
+    }
+
     return (
         <AppBar position="sticky">
             <Toolbar sx={{backgroundColor: "primary.dark"}}>
@@ -46,7 +51,7 @@ const Header: React.FC<Header> = (props) => {
                 </Typography>
 
                 <CategorySelect {...props} />
-                <IconButton sx={{ml: 1}} onClick={colorMode.toggleColorMode} color="inherit">
+                <IconButton sx={{ml: 1}} onClick={handleThemeswitch} color="inherit">
                     {theme.palette.mode === 'dark' ? <Brightness7Icon/> : <Brightness4Icon/>}
                 </IconButton>
                 <IconButton sx={{ml: 1}} onClick={handleExit} color="inherit">

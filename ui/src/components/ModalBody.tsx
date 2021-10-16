@@ -4,6 +4,8 @@ import {Button, Stack, Typography, LinearProgress, Slide, Dialog} from '@mui/mat
 import {fetchNui} from "../utils/fetchNui"
 import { TransitionProps } from '@mui/material/transitions';
 import DialogueBody from "./DialogueBody";
+import GlobalState from '../state'
+import {useRecoilValue} from "recoil";
 
 function getModalStyle() {
     return {
@@ -36,7 +38,6 @@ interface Modal {
 const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace, setOpen, performance, spawncode}) => {
     const [modalStyle] = useState(getModalStyle)
     const theme = useTheme()
-    const [buyEnabled, setBuyEnabled] = useState<boolean>(false)
     const [dialogueOpen, setDialogueOpen] = useState<boolean>(false)
 
     const handleClose = () => {
@@ -46,18 +47,7 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
         setDialogueOpen(false)
     }
 
-    // TODO: This needs to be done better
-    // I should look into using a state management library to use
-    // this as a global state instead of fetching every time I render
-    // the component
-    useEffect(() => {
-        fetchNui<boolean>("fetch:canbuy").then((data) => {
-            console.log(data)
-            setBuyEnabled(data)
-        }).catch(() => {
-            setBuyEnabled(true)
-        })
-    }, [])
+    const buyEnabled = useRecoilValue(GlobalState.canbuy)
 
     return (
         <>
