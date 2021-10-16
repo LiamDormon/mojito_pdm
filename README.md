@@ -12,10 +12,11 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 - Test Driving with configurable locations and timer
 - Buy vehicles from the catalogue
 
-## Planned Features
-- Pull prices and trunk weight from shared.lua, for now these are static
-- Learn how to use state management libraries to fix the janky react code
-- Add the config option to restrict usage when car dealers are online
+## Todos
+- [x] Buy vehicles from the catalogue
+- [x] Learn how to use state management libraries to fix the janky react code
+- [ ] Pull prices and trunk weight from shared.lua, for now these are static
+- [ ] Add the config option to restrict usage when car dealers are online
 
 ## Config
 
