@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Dispatch, SetStateAction} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Grid, Button} from '@mui/material'
 import cardata from '../cars.json';
 import VehCard from './VehCard'

@@ -1,7 +1,6 @@
-import React, {Dispatch, useState, useEffect, SetStateAction} from 'react'
+import React, {Dispatch, useState, SetStateAction} from 'react'
 import {useTheme} from "@mui/material/styles";
 import {Button, Stack, Typography, LinearProgress, Slide, Dialog} from '@mui/material'
-import {fetchNui} from "../utils/fetchNui"
 import { TransitionProps } from '@mui/material/transitions';
 import DialogueBody from "./DialogueBody";
 import GlobalState from '../state'
