@@ -82,3 +82,7 @@ To build the script:
 Issues and pull requests are welcomed.
 
 This project is using [Project Error's React Boilerplate](https://github.com/project-error/fivem-react-boilerplate-lua) which comes with useful utilities, use `yarn start` to start the dev server or `yarn start:game` to open the dev server and build at the same time.
+
+## Credits
+
+- Images and Brand Logos taken from [GTA Fandom Wiki](https://gta.fandom.com/wiki/) under CC-BY-SA license
