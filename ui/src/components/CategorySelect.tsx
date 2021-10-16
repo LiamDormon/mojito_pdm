@@ -24,7 +24,7 @@ const CategorySelect: React.FC<CategorySelect> = ({cat, setCat}) => {
         <>
             <div>
                 <FormControl variant="outlined" sx={{margin: theme.spacing(1), minWidth: 240}} color="error">
-                    <InputLabel sx={{color: "white"}} id="demo-simple-select-outlined-label">Category</InputLabel>
+                    <InputLabel sx={{color: "white"}}>Category</InputLabel>
                     <Select sx={{color: "white"}}
                             labelId="demo-simple-select-outlined-label"
                             id="demo-simple-select-outlined"

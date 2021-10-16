@@ -60,7 +60,7 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
                 padding: theme.spacing(2, 4, 3),
                 color: theme.palette.mode === "dark" ? "white" : "black"
             }}>
-                <h2 id="simple-modal-title">{`${brand} ${name}`}</h2>
+                <h2>{`${brand} ${name}`}</h2>
                 <h4>
                     Price: {price} <br/>
                     Trunk Space: {trunkspace}

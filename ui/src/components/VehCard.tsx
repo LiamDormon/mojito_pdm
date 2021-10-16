@@ -78,8 +78,6 @@ const VehCard: React.FC<Car> = ({
                 <Modal
                     open={open}
                     onClose={handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
                 >
                     {<ModalBody
                         name={name}
