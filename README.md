@@ -64,6 +64,8 @@ To open trigger the event `mojito_pdm:client:open`, you can do this with 3D text
 
 ## Building
 
+Builds are automatically generated when a tagged release is pushed, to build manually from the master branch you can use the following:
+
 ### Yarn:
 
 To build the UI:
@@ -92,3 +94,4 @@ This project is using [Project Error's React Boilerplate](https://github.com/pro
 
 - Images and Brand Logos taken from [GTA Fandom Wiki](https://gta.fandom.com/wiki/) under CC-BY-SA license
 - Build and Release script taken from [fivem-appearance](https://github.com/pedr0fontoura/fivem-appearance) under MIT license
+- Github Actions workflow was created by [Taso](https://github.com/TasoOneAsia) for [txAdmin](https://github.com/tabarra/txAdmin) under MIT license
