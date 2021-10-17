@@ -12,11 +12,11 @@ const getVehicleCard = (index: number, obj: Car) => {
     )
 }
 
-interface Content {
+interface IContent {
     cat: string;
 }
 
-const Content: React.FC<Content> = ({cat}) => {
+const Content: React.FC<IContent> = ({cat}) => {
     const [data, setData] = useState<Car[]>([])
     const [limit, setLimit] = useState<number>(12)
     const [maxdepth, setMaxdepth] = useState<boolean>(false)

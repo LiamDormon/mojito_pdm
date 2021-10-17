@@ -8,12 +8,12 @@ import {
 } from '@mui/material'
 import {useTheme} from "@mui/material/styles";
 
-interface CategorySelect {
+interface ICategorySelect {
     cat: string;
     setCat: Dispatch<SetStateAction<string>>
 }
 
-const CategorySelect: React.FC<CategorySelect> = ({cat, setCat}) => {
+const CategorySelect: React.FC<ICategorySelect> = ({cat, setCat}) => {
     const theme = useTheme()
 
     const handleChange = (event: SelectChangeEvent) => {

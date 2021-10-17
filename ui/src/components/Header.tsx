@@ -15,12 +15,12 @@ import {fetchNui} from "../utils/fetchNui";
 import GlobalState from "../state";
 import {useRecoilState} from "recoil";
 
-interface Header {
+interface IHeader {
     cat: string;
     setCat: Dispatch<SetStateAction<string>>
 }
 
-const Header: React.FC<Header> = (props) => {
+const Header: React.FC<IHeader> = (props) => {
     const theme = useTheme();
     const [colorMode, setColorMode] = useRecoilState(GlobalState.theme)
 
@@ -40,7 +40,7 @@ const Header: React.FC<Header> = (props) => {
     }
 
     const handleThemeswitch = () => {
-        colorMode == "light" ? setColorMode("dark") : setColorMode("light")
+        colorMode === "light" ? setColorMode("dark") : setColorMode("light")
     }
 
     return (

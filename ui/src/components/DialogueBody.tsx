@@ -8,14 +8,14 @@ import {
 } from '@mui/material'
 import {fetchNui} from "../utils/fetchNui";
 
-interface DialogueBody {
+interface IDialogueBody {
     spawncode: string;
     price: string;
     setDialogueOpen: Dispatch<SetStateAction<boolean>>;
     setModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DialogueBody: React.FC<DialogueBody> = ({spawncode, price, setDialogueOpen, setModalOpen}) => {
+const DialogueBody: React.FC<IDialogueBody> = ({spawncode, price, setDialogueOpen, setModalOpen}) => {
     const handleClose = () => {
         setDialogueOpen(false)
     }

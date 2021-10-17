@@ -53,7 +53,7 @@ const VehCard: React.FC<Car> = ({
                 <Tooltip TransitionComponent={Zoom} sx={{maxWidth: 120}} arrow title="Test drive this vehicle">
                     <Button
                         size="small"
-                        variant={theme.palette.mode == "dark" ? "contained" : "outlined"}
+                        variant={theme.palette.mode === "dark" ? "contained" : "outlined"}
                         color="primary"
                         startIcon={<DirectionsCarIcon/>}
                         onClick={testDrive}
@@ -66,7 +66,7 @@ const VehCard: React.FC<Car> = ({
                          title="View more information about this vehicle">
                     <Button
                         size="small"
-                        variant={theme.palette.mode == "dark" ? "contained" : "outlined"}
+                        variant={theme.palette.mode === "dark" ? "contained" : "outlined"}
                         color="primary"
                         startIcon={<AssignmentIcon/>}
                         onClick={handleOpen}

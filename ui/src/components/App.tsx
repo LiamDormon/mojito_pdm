@@ -23,7 +23,7 @@ debugData([
 const App: React.FC = () => {
     const [isVisible, setIsVisible] = useState(false)
     const mode = useRecoilValue(GlobalState.theme)
-    const [buyEnabled, setBuyEnabled] = useRecoilState(GlobalState.canbuy)
+    const [, setBuyEnabled] = useRecoilState(GlobalState.canbuy)
 
     useEffect(() => {
         fetchNui<boolean>("fetch:canbuy").then((data) => {
@@ -32,7 +32,7 @@ const App: React.FC = () => {
         }).catch(() => {
             setBuyEnabled(true)
         })
-    }, [])
+    })
 
     const theme = useMemo(
         () =>
