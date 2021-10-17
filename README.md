@@ -15,8 +15,8 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 ## Todos
 - [x] Buy vehicles from the catalogue
 - [x] Learn how to use state management libraries to fix the janky react code
+- [x] Add the config option to restrict usage when car dealers are online
 - [ ] Pull prices and trunk weight from shared.lua, for now these are static
-- [ ] Add the config option to restrict usage when car dealers are online
 
 ## Config
 
@@ -29,7 +29,12 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
     "enabled": true,                                                                  // Enable time limit on test drives
     "time": 120                                                                       // Time (in seconds) of the test drive
   },
-  "canbuy": true								      // Set to false to disable buying vehicles
+  "canbuy": true,								      // Set to false to disable buying vehicles
+  "limit": {                                              
+    "enabled": true,                                                                  // Set to true to restrict usage when car dealers are online                                  
+    "jobname": "cardealer",                                                           // Name of car dealer job
+    "count": 2                                                                        // Maximum amount of car dealers that can be online before restrictions
+  }  
 }
 ```
 
