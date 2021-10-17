@@ -91,3 +91,4 @@ This project is using [Project Error's React Boilerplate](https://github.com/pro
 ## Credits
 
 - Images and Brand Logos taken from [GTA Fandom Wiki](https://gta.fandom.com/wiki/) under CC-BY-SA license
+- Build and Release script taken from [fivem-appearance](https://github.com/pedr0fontoura/fivem-appearance) under MIT license

@@ -1,0 +1,16 @@
+{
+  "name": "mojito_pdm",
+  "version": "2.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mojito-Fivem/mojito_pdm.git"
+  },
+  "author": "Mojito",
+  "license": "CC-BY-SA-4.0",
+  "scripts": {
+    "build:resources": "cd resources && npm i && npm run build",
+    "build:ui": "cd ui && npm i && npm run build",
+    "build": "npm run build:resources && npm run build:ui",
+    "build:release": "npm run build && node release.js"
+  }
+}

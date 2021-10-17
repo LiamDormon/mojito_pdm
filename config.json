@@ -6,5 +6,10 @@
     "enabled": true,
     "time": 120
   },
-  "canbuy": true
+  "canbuy": true,
+  "limit": {
+    "enabled": true,
+    "jobname": "cardealer",
+    "count": 2
+  }
 }
