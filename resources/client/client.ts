@@ -39,17 +39,15 @@ onNet('mojito_pdm:client:start_testdrive', (time: number) => {
   }, 1000);
 });
 
-let canbuy: boolean = false;
-let BuyLocation: Vector = { x: 0.0, y: 0.0, z: 0.0 };
+let Config: IConfig = null;
 
 setImmediate(async () => {
   const serverResp = await utils.emitNetPromise<ServerPromiseResp<IConfig>>('fetch:config', {});
-  canbuy = serverResp.data.canbuy;
-  BuyLocation = serverResp.data.buylocation;
+  Config = serverResp.data
 });
 
 RegisterNuiCB('fetch:canbuy', async (data, cb) => {
-  cb(canbuy);
+  cb(Config.canbuy);
 });
 
 RegisterNuiCB('buy_vehicle', async (data, cb) => {
@@ -85,7 +83,7 @@ utils.registerRPCListener<incommingVehicleBought>('mojito_pdm:client:vehicleboug
   QBCore.Functions.SpawnVehicle(
     data.vehicle,
     (veh: number) => {
-      SetEntityHeading(veh, BuyLocation.h);
+      SetEntityHeading(veh, Config.buylocation.h);
       SetVehicleNumberPlateText(veh, data.plate);
       SetEntityAsMissionEntity(veh, true, true);
       SetPedIntoVehicle(PlayerPedId(), veh, -1);
@@ -94,7 +92,7 @@ utils.registerRPCListener<incommingVehicleBought>('mojito_pdm:client:vehicleboug
 
       properties = QBCore.Functions.GetVehicleProperties(veh);
     },
-    BuyLocation,
+    Config.buylocation,
   );
 
   return properties;

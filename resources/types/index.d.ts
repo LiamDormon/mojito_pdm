@@ -6,8 +6,14 @@ interface Vector {
 }
 
 interface ITemporary {
-  enabled: true;
+  enabled: boolean;
   time: number;
+}
+
+interface ILimit {
+  enabled: boolean;
+  jobname: string;
+  count: number;
 }
 
 export interface IConfig {
@@ -16,4 +22,5 @@ export interface IConfig {
   buylocation: Vector;
   temporary: ITemporary;
   canbuy: boolean;
+  limit: ILimit;
 }
