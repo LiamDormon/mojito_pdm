@@ -170,3 +170,16 @@ utils.onNetPromise<incommingBuyVeh, outgoingBuyVeh>(
     }
   },
 );
+
+utils.onNetPromise<null, number>('fetch:pdm_online', (req, res) => {
+  const Players = QBCore.Functions.GetQBPlayers();
+  let count: number = 0;
+  Players.forEach((ply) => {
+    if (ply.PlayerData.job.name == Config.limit.jobname) count++;
+  });
+
+  res({
+    status: 'ok',
+    data: count,
+  });
+});

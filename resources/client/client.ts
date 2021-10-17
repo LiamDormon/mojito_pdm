@@ -5,7 +5,11 @@ import { Timerbar } from 'fivem-js';
 import { IConfig, Vector } from '../types';
 import { VehicleProperties } from 'qbcore.js/@types/client';
 
-on('mojito_pdm:client:open', () => {
+on('mojito_pdm:client:open', async () => {
+  const serverResp = await utils.emitNetPromise<ServerPromiseResp<number>>('fetch:pdm_online', {});
+  if (Config.limit.enabled && serverResp.data > Config.limit.count)
+    return QBCore.Functions.Notify('There are too many car dealers online', 'error');
+
   utils.Open(true);
 });
 
@@ -43,7 +47,7 @@ let Config: IConfig = null;
 
 setImmediate(async () => {
   const serverResp = await utils.emitNetPromise<ServerPromiseResp<IConfig>>('fetch:config', {});
-  Config = serverResp.data
+  Config = serverResp.data;
 });
 
 RegisterNuiCB('fetch:canbuy', async (data, cb) => {
