@@ -2,9 +2,10 @@ import React, {Dispatch, useState, SetStateAction} from 'react'
 import {useTheme} from "@mui/material/styles";
 import {Button, Stack, Typography, LinearProgress, Slide, Dialog} from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
-import DialogueBody from "./DialogueBody";
+import PurchaseDialogueBody from "./PurchaseDialogueBody";
 import GlobalState from '../state'
 import {useRecoilValue} from "recoil";
+import FinanceDialogueBody from "./FinanceDialogueBody";
 
 function getModalStyle() {
     return {
@@ -37,13 +38,18 @@ interface Modal {
 const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace, setOpen, performance, spawncode}) => {
     const [modalStyle] = useState(getModalStyle)
     const theme = useTheme()
-    const [dialogueOpen, setDialogueOpen] = useState<boolean>(false)
+    const [pDialogueOpen, setpDialogueOpen] = useState<boolean>(false) // Purchase Dialogue
+    const [fDialogueOpen, setfDialogueOpen] = useState<boolean>(false) // Finance Dialogue
 
     const handleClose = () => {
         setOpen(false)
     }
-    const handleDialogueClose = () => {
-        setDialogueOpen(false)
+    const handlepDialogueClose = () => {
+        setpDialogueOpen(false)
+    }
+
+    const handlefDialogueClose = () => {
+        setfDialogueOpen(false)
     }
 
     const buyEnabled = useRecoilValue(GlobalState.canbuy)
@@ -77,18 +83,34 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
                 </p>
                 <Stack direction="row" spacing={2}>
                     <Button size="small" variant="outlined" color="error" onClick={handleClose}>Close</Button>
-                    { buyEnabled && <Button size="small" variant="outlined" color="primary" onClick={() => setDialogueOpen(true)}>Buy</Button> }
+                    { buyEnabled && <Button size="small" variant="outlined" color="primary" onClick={() => setpDialogueOpen(true)}> Buy </Button> }
+                    { buyEnabled && <Button size="small" variant="outlined" color="primary" onClick={() => setfDialogueOpen(true)}> Finance </Button> }
                 </Stack>
                 <Dialog
-                    open={dialogueOpen}
+                    open={pDialogueOpen}
                     TransitionComponent={Transition}
                     keepMounted
-                    onClose={handleDialogueClose}
+                    onClose={handlepDialogueClose}
                 >
-                    <DialogueBody
+                    <PurchaseDialogueBody
                         spawncode={spawncode}
                         price={price}
-                        setDialogueOpen={setDialogueOpen}
+                        setDialogueOpen={setpDialogueOpen}
+                        setModalOpen={setOpen}
+                    />
+                </Dialog>
+                <Dialog
+                    open={fDialogueOpen}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handlefDialogueClose}
+                    fullWidth
+                    maxWidth={"xs"}
+                >
+                    <FinanceDialogueBody
+                        spawncode={spawncode}
+                        price={price}
+                        setDialogueOpen={setfDialogueOpen}
                         setModalOpen={setOpen}
                     />
                 </Dialog>
