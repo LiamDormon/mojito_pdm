@@ -11,5 +11,10 @@
     "enabled": false,
     "jobname": "cardealer",
     "count": 2
+  },
+  "finance": {
+    "installment_percent": 10,
+    "runs_on": 1,
+    "runs_at": "18:30"
   }
 }

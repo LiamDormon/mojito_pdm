@@ -16,6 +16,12 @@ interface ILimit {
   count: number;
 }
 
+interface IFinance {
+  installment_percent: number;
+  runs_on: number;
+  runs_at: string;
+}
+
 export interface IConfig {
   pdmlocation: Vector;
   testdrivespawn: Vector;
@@ -23,4 +29,5 @@ export interface IConfig {
   temporary: ITemporary;
   canbuy: boolean;
   limit: ILimit;
+  finance: IFinance;
 }

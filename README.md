@@ -16,7 +16,7 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 - [x] Buy vehicles from the catalogue
 - [x] Learn how to use state management libraries to fix the janky react code
 - [x] Add the config option to restrict usage when car dealers are online
-- [ ] Pull prices and trunk weight from shared.lua, for now these are static
+- [ ] Finace System
 
 ## Config
 
@@ -34,15 +34,24 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
     "enabled": true,                                                                  // Set to true to restrict usage when car dealers are online                                  
     "jobname": "cardealer",                                                           // Name of car dealer job
     "count": 2                                                                        // Maximum amount of car dealers that can be online before restrictions
-  }  
+  }
+  "finance": {
+    "installment_percent": 10,                                                        // Percentage cost of finance installments
+    "runs_on": 1,                                                                     // The day of the week the installments are taken 1 = monday
+    "runs_at": "18:30"                                                                // The time of day the installments are taken in 24h format
+  }
 }
 ```
+
+### Important
+If buying is enabled, [cron](https://github.com/esx-framework/cron) is needed as a dependency
 
 To edit car information use `ui/src/cars.json` for now.
 
 ## Usage
 
 To open trigger the event `mojito_pdm:client:open`, you can do this with 3D text, DrawTextUI or qb-target like so:
+To open the propmt to check finance trigger the event `mojito_pdm:client:check_finance`
 
 ```lua
 	["mojito_pdm"] = {

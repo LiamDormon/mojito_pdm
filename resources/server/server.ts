@@ -278,4 +278,140 @@ onNet('mojito_pdm:server:check_finance', (plate: string) => {
   );
 });
 
-// TODO: Cron Job to automate bills
+interface IFinanceDatabase {
+  id: number;
+  plate: string;
+  citizenid: string;
+  model: string;
+  interest_rate: number;
+  outstanding_bal: number;
+  warning: number;
+}
+
+if (Config.canbuy) {
+  const [hour, minute] = Config.finance.runs_at.split(':');
+  const day = Config.finance.runs_on;
+
+  const CronTask = (d: number) => {
+    if (d != day) return;
+
+    console.log('[mojito_pdm]: Running cron task');
+
+    global.exports.oxymsql.execute('SELECT * FROM vehicle_finance', (res: IFinanceDatabase[]) => {
+      res.forEach(async (vehicle) => {
+        const { price } = QBCore.Shared.Vehicles[vehicle.model];
+        const payment = price * (Config.finance.installment_percent / 100);
+
+        const Owner = QBCore.Functions.GetPlayerByCitizenId(vehicle.citizenid);
+        if (Owner) {
+          const { bank } = Owner.PlayerData.money;
+
+          if (bank - payment >= 0) {
+            Owner.Functions.RemoveMoney('bank', payment, 'vehicle-finance-paid');
+            let outstanding = vehicle.outstanding_bal - payment;
+            if (outstanding <= 0) {
+              global.exports.oxymsql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
+                plate: vehicle.plate,
+              });
+
+              return;
+            }
+
+            outstanding += outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
+            global.exports.oxymsql.update(
+              'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
+              {
+                outstanding: outstanding,
+              },
+            );
+          } else {
+            // Take all we can
+            Owner.Functions.SetMoney('bank', 0);
+
+            if (vehicle.warning === 1) {
+              // Vehicle is repossesd
+              global.exports.oxymsql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
+                plate: vehicle.plate,
+              });
+            } else {
+              let outstanding = vehicle.outstanding_bal - bank;
+              outstanding += outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
+              global.exports.oxymsql.update(
+                'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 1',
+                {
+                  outstanding: outstanding,
+                },
+              );
+            }
+          }
+        } else {
+          const Owner = await global.exports.oxymsql.single(
+            'SELECT FROM players WHERE citizenid = :citizenid',
+            {
+              citizenid: vehicle.citizenid,
+            },
+          );
+
+          const money = JSON.parse(Owner.money);
+          let bank = money.bank;
+
+          if (bank - payment >= 0) {
+            money.bank -= payment;
+            global.exports.oxmysql.update(
+              'UPDATE players SET money = :money WHERE citizenid = :cid',
+              {
+                money: JSON.stringify(money),
+                cid: Owner.citizenid,
+              },
+            );
+
+            let outstanding = vehicle.outstanding_bal - payment;
+            if (outstanding <= 0) {
+              global.exports.oxymsql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
+                plate: vehicle.plate,
+              });
+
+              return;
+            }
+
+            outstanding += outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
+            global.exports.oxymsql.update(
+              'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
+              {
+                outstanding: outstanding,
+              },
+            );
+          } else {
+            // Take all we can
+            money.bank = 0;
+            global.exports.oxmysql.update(
+              'UPDATE players SET money = :money WHERE citizenid = :cid',
+              {
+                money: JSON.stringify(money),
+                cid: Owner.citizenid,
+              },
+            );
+
+            if (vehicle.warning === 1) {
+              // Vehicle is repossesd
+              global.exports.oxymsql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
+                plate: vehicle.plate,
+              });
+            } else {
+              let outstanding = vehicle.outstanding_bal - bank;
+              outstanding += outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
+              global.exports.oxymsql.update(
+                'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 1',
+                {
+                  outstanding: outstanding,
+                },
+              );
+            }
+          }
+        }
+      });
+    });
+  };
+
+  emit('cron:runAt', hour, minute, CronTask);
+}
