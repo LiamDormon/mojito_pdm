@@ -51,7 +51,7 @@ setImmediate(async () => {
 });
 
 RegisterNuiCB('fetch:canbuy', async (data, cb) => {
-  cb(Config.canbuy);
+  cb(Config?.canbuy || true);
 });
 
 RegisterNuiCB('buy_vehicle', async (data, cb) => {
@@ -114,4 +114,25 @@ RegisterNuiCB<IFinanceCB>('finance_vehicle', (data, cb) => {
   emitNet('mojito_pdm:server:finance_vehicle', vehicle, downpayPercent);
 
   cb({});
+});
+
+interface IncommingFinanceMail {
+  vehicleName: string;
+  interest: number;
+  outstanding: number;
+}
+
+onNet('mojito_pdm:client:financed_vehicle_mail', (data: IncommingFinanceMail) => {
+  const { vehicleName, interest, outstanding } = data;
+
+  emitNet('qb-phone:server:sendNewMail', {
+    sender: 'Premium Deluxue Motorsport',
+    subject: 'Vehicle Finance',
+    message: `
+      Your new ${vehicleName} is ready for collection <br />
+      You have an outstanding balance of ${outstanding} at an interest rate of ${interest}% <br /> <br />
+      Sincerly, <br />
+      Los Santos Finance Ltd.
+    `,
+  });
 });

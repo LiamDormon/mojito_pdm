@@ -8,7 +8,7 @@
   },
   "canbuy": true,
   "limit": {
-    "enabled": true,
+    "enabled": false,
     "jobname": "cardealer",
     "count": 2
   }

@@ -60,7 +60,7 @@ onNet('mojito_pdm:server:testdrive', async (vehicle: string) => {
 });
 
 utils.onNetPromise<unknown, IConfig>('fetch:config', (req, res) => {
-  const respData: ServerPromiseResp<IConfig> = {
+    const respData: ServerPromiseResp<IConfig> = {
     data: Config,
     status: 'ok',
   };
@@ -174,9 +174,10 @@ utils.onNetPromise<incommingBuyVeh, outgoingBuyVeh>(
 utils.onNetPromise<null, number>('fetch:pdm_online', (req, res) => {
   const Players = QBCore.Functions.GetQBPlayers();
   let count: number = 0;
-  Players.forEach((ply) => {
-    if (ply.PlayerData.job.name == Config.limit.jobname) count++;
-  });
+  for (let id in Players) {
+      const ply = Players[id]
+      if (ply.PlayerData.job.name == Config.limit.jobname) count++;
+  }
 
   res({
     status: 'ok',
@@ -196,7 +197,7 @@ const interestRates: IInterest = {
 
 onNet('mojito_pdm:server:finance_vehicle', async (spawncode: string, downpayPercent: number) => {
   const { price, name, brand } = QBCore.Shared.Vehicles[spawncode];
-  const downpay = Math.round(price * (downpayPercent / 100))
+  const downpay = Math.round(price * (downpayPercent / 100));
   const interestPercent = interestRates[downpayPercent];
   const src = global.source;
 
@@ -250,7 +251,11 @@ onNet('mojito_pdm:server:finance_vehicle', async (spawncode: string, downpayPerc
     )}** financed a ${name} ${brand}: \n Downpay: ${downpay} \n Interest Rate: ${interestPercent}`,
   );
 
-  //TODO: Email Notification
+  emitNet('mojito_pdm:client:financed_vehicle_mail', src, {
+      vehicleName: `${brand} ${name}`,
+      outstanding: outstandingBal,
+      interest: interestPercent
+  });
 });
 
 // TODO: Cron Job to automate bills
