@@ -101,3 +101,17 @@ utils.registerRPCListener<incommingVehicleBought>('mojito_pdm:client:vehicleboug
 
   return properties;
 });
+
+interface IFinanceCB {
+  vehicle: string;
+  downpayPercent: number;
+}
+
+RegisterNuiCB<IFinanceCB>('finance_vehicle', (data, cb) => {
+  const { vehicle, downpayPercent } = data;
+  if (!QBCore.Shared.Vehicles[vehicle])
+    return QBCore.Functions.Notify('This vehicle does not appear to exist', 'error');
+  emitNet('mojito_pdm:server:finance_vehicle', vehicle, downpayPercent);
+
+  cb({});
+});

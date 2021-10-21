@@ -28,7 +28,8 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
         setModalOpen(false)
 
         fetchNui("finance_vehicle", {
-            vehicle: spawncode
+            vehicle: spawncode,
+            downpayPercent: downpay,
         }).then(() => {
             fetchNui("exit").then(() => {
                 window.dispatchEvent(
@@ -50,7 +51,7 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
     const calculateDownpayment = () => {
         const total = parseFloat(price.slice(1).replace(/,/g, ''))
 
-        return Math.round(total * (1 / downpay))
+        return Math.round(total * (downpay / 100))
     }
 
     const onSliderChange = (e: any) => {
@@ -60,6 +61,7 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
     interface iInterest {
         [key: number]: number
     }
+
     const interestRates: iInterest = {
         10: 20,
         20: 15,
@@ -72,11 +74,11 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
             <DialogTitle>Confirm your finance options</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Downpayment: ${ calculateDownpayment() }.00 <br />
-                    Interest Rate: { interestRates[downpay] }%
+                    Downpayment: ${calculateDownpayment()}.00 <br/>
+                    Interest Rate: {interestRates[downpay]}%
                 </DialogContentText>
 
-                <br />
+                <br/>
                 <Slider
                     defaultValue={downpay}
                     marks={[
@@ -88,7 +90,7 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
                     min={10}
                     max={40}
                     step={10}
-                    getAriaValueText={(value) => value+"%"}
+                    getAriaValueText={(value) => value + "%"}
                     onChange={onSliderChange}
                 />
 

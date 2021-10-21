@@ -183,3 +183,74 @@ utils.onNetPromise<null, number>('fetch:pdm_online', (req, res) => {
     data: count,
   });
 });
+
+interface IInterest {
+  [key: number]: number;
+}
+const interestRates: IInterest = {
+  10: 20,
+  20: 15,
+  30: 10,
+  40: 5,
+};
+
+onNet('mojito_pdm:server:finance_vehicle', async (spawncode: string, downpayPercent: number) => {
+  const { price, name, brand } = QBCore.Shared.Vehicles[spawncode];
+  const downpay = Math.round(price * (downpayPercent / 100))
+  const interestPercent = interestRates[downpayPercent];
+  const src = global.source;
+
+  const Player = QBCore.Functions.GetPlayer(src);
+  const { bank } = Player.PlayerData.money;
+
+  if (bank - downpay <= 0) {
+    return emitNet(
+      'QBCore:Notify',
+      src,
+      'You have insufficient funds to finance this vehicle',
+      'error',
+    );
+  }
+
+  Player.Functions.RemoveMoney('bank', downpay, 'finance-vehicle');
+
+  const plate = await utils.GeneratePlate();
+  const mods = await utils.callClientRPC('mojito_pdm:client:vehiclebought', src, {
+    vehicle: spawncode,
+    plate: plate,
+  });
+
+  global.exports.oxmysql.insert(
+    'INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [
+      Player.PlayerData.license,
+      Player.PlayerData.citizenid,
+      spawncode,
+      GetHashKey(spawncode),
+      JSON.stringify(mods),
+      plate,
+      0,
+    ],
+  );
+
+  const outstandingBal = price - downpay;
+
+  global.exports.oxmysql.insert(
+    'INSERT INTO vehicle_finance (plate, citizenid, model, interest_rate, outstanding_bal) VALUES (?, ?, ?, ?, ?)',
+    [plate, Player.PlayerData.citizenid, spawncode, interestPercent, outstandingBal],
+  );
+
+  emit(
+    'qb-log:server:CreateLog',
+    'vehicleshop',
+    'Vehicle Financed (PDM Catalogue)',
+    'green',
+    `**${GetPlayerName(
+      src.toString(),
+    )}** financed a ${name} ${brand}: \n Downpay: ${downpay} \n Interest Rate: ${interestPercent}`,
+  );
+
+  //TODO: Email Notification
+});
+
+// TODO: Cron Job to automate bills
