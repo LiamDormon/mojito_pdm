@@ -56,6 +56,12 @@ To open trigger the event `mojito_pdm:client:open`, you can do this with 3D text
 				event="mojito_pdm:client:open",
 				icon="fas fa-book-open",
 				label="Open Catalogue"
+			},
+			{
+				type="client",
+				event="mojito_pdm:client:check_finance",
+				icon="fas fa-comment-dollar",
+				label="Check Finance"
 			}
 		},
 		distance=1.0
