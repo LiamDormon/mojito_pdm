@@ -60,7 +60,7 @@ onNet('mojito_pdm:server:testdrive', async (vehicle: string) => {
 });
 
 utils.onNetPromise<unknown, IConfig>('fetch:config', (req, res) => {
-    const respData: ServerPromiseResp<IConfig> = {
+  const respData: ServerPromiseResp<IConfig> = {
     data: Config,
     status: 'ok',
   };
@@ -175,8 +175,8 @@ utils.onNetPromise<null, number>('fetch:pdm_online', (req, res) => {
   const Players = QBCore.Functions.GetQBPlayers();
   let count: number = 0;
   for (let id in Players) {
-      const ply = Players[id]
-      if (ply.PlayerData.job.name == Config.limit.jobname) count++;
+    const ply = Players[id];
+    if (ply.PlayerData.job.name == Config.limit.jobname) count++;
   }
 
   res({
@@ -252,10 +252,30 @@ onNet('mojito_pdm:server:finance_vehicle', async (spawncode: string, downpayPerc
   );
 
   emitNet('mojito_pdm:client:financed_vehicle_mail', src, {
-      vehicleName: `${brand} ${name}`,
-      outstanding: outstandingBal,
-      interest: interestPercent
+    vehicleName: `${brand} ${name}`,
+    outstanding: outstandingBal,
+    interest: interestPercent,
   });
+});
+
+onNet('mojito_pdm:server:check_finance', (plate: string) => {
+  const src = global.source;
+  if (!plate) return;
+
+  global.exports.oxmysql.single(
+    'SELECT outstanding_bal from vehicle_finance WHERE plate = :plate',
+    {
+      plate: plate,
+    },
+    (res: any) => {
+      if (res) {
+        const { outstanding_bal } = res;
+        emitNet('QBCore:Notify', src, `Your outstanding balance stands at $${outstanding_bal}`);
+      } else {
+        emitNet('QBCore:Notify', src, 'We could not find this registration in our system');
+      }
+    },
+  );
 });
 
 // TODO: Cron Job to automate bills

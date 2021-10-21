@@ -136,3 +136,8 @@ onNet('mojito_pdm:client:financed_vehicle_mail', (data: IncommingFinanceMail) =>
     `,
   });
 });
+
+on('mojito_pdm:client:check_finance', async () => {
+  const plate = await utils.TakePlateInput();
+  emitNet('mojito_pdm:server:check_finance', plate);
+});
