@@ -16,7 +16,26 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 - [x] Buy vehicles from the catalogue
 - [x] Learn how to use state management libraries to fix the janky react code
 - [x] Add the config option to restrict usage when car dealers are online
-- [ ] Finace System
+- [ ] Finance System
+
+## Instalation
+Download the latest version from the releases. Note that the master branch is not considered the most stable branch and you should not build from master unless you know what you're doing.
+
+If you have buying and finance enabled you need to add the following to your database and install the [cron](https://github.com/esx-framework/cron) dependency
+```sql
+CREATE TABLE IF NOT EXISTS `vehicle_finance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `plate` varchar(10) NOT NULL,
+  `citizenid` varchar(255) DEFAULT NULL,
+  `model` varchar(50) DEFAULT NULL,
+  `interest_rate` int(11) DEFAULT NULL,
+  `outstanding_bal` int(11) DEFAULT NULL,
+  `warning` tinyint(4) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `citizenid` (`citizenid`),
+  CONSTRAINT `cid` FOREIGN KEY (`citizenid`) REFERENCES `players` (`citizenid`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+```
 
 ## Config
 
@@ -43,10 +62,7 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 }
 ```
 
-### Important
-If buying is enabled, [cron](https://github.com/esx-framework/cron) is needed as a dependency
-
-To edit car information use `ui/src/cars.json` for now.
+To edit car information use `ui/src/cars.json` and compile, do this from the latest tagged version of the source code - the master branch is not considered stable.
 
 ## Usage
 
