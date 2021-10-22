@@ -47,13 +47,13 @@ class Utils extends ClientUtils {
       const TabletModel = GetHashKey('prop_cs_tablet');
       if (!DoesEntityExist(Player(-1).state['PDMTabletModel'])) {
         Player(-1).state['PDMTabletModel'] = CreateObject(
-            TabletModel,
-            1.0,
-            1.0,
-            1.0,
-            true,
-            true,
-            false,
+          TabletModel,
+          1.0,
+          1.0,
+          1.0,
+          true,
+          true,
+          false,
         );
       }
       const bone = GetPedBoneIndex(Ped, 60309);

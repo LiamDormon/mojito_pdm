@@ -2,7 +2,7 @@ import { QBCore } from './qbcore';
 import { utils } from './utils';
 import { RegisterNuiCB, ServerPromiseResp } from '@project-error/pe-utils';
 import { Timerbar } from 'fivem-js';
-import { IConfig, Vector } from '../types';
+import Config from './config';
 import { VehicleProperties } from 'qbcore.js/@types/client';
 
 on('mojito_pdm:client:open', async () => {
@@ -43,15 +43,8 @@ onNet('mojito_pdm:client:start_testdrive', (time: number) => {
   }, 1000);
 });
 
-let Config: IConfig = null;
-
-setImmediate(async () => {
-  const serverResp = await utils.emitNetPromise<ServerPromiseResp<IConfig>>('fetch:config', {});
-  Config = serverResp.data;
-});
-
 RegisterNuiCB('fetch:canbuy', async (data, cb) => {
-  cb(Config?.canbuy || true);
+  cb(Config.canbuy);
 });
 
 RegisterNuiCB('buy_vehicle', async (data, cb) => {

@@ -59,15 +59,6 @@ onNet('mojito_pdm:server:testdrive', async (vehicle: string) => {
   }
 });
 
-utils.onNetPromise<unknown, IConfig>('fetch:config', (req, res) => {
-  const respData: ServerPromiseResp<IConfig> = {
-    data: Config,
-    status: 'ok',
-  };
-
-  res(respData);
-});
-
 interface incommingBuyVeh {
   vehicle: string;
 }
