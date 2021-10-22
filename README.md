@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_finance` (
     "enabled": true,                                                                  // Set to true to restrict usage when car dealers are online                                  
     "jobname": "cardealer",                                                           // Name of car dealer job
     "count": 2                                                                        // Maximum amount of car dealers that can be online before restrictions
-  }
+  },
   "finance": {
     "installment_percent": 10,                                                        // Percentage cost of finance installments
     "runs_on": 1,                                                                     // The day of the week the installments are taken 1 = monday
@@ -70,27 +70,27 @@ To open trigger the event `mojito_pdm:client:open`, you can do this with 3D text
 To open the propmt to check finance trigger the event `mojito_pdm:client:check_finance`
 
 ```lua
-	["mojito_pdm"] = {
-		name="mojito_pdm",
-		coords=vector3(-55.17767, -1096.946, 26.62873),
-		radius=0.4,
-		useZ=true,
-		options = {
-			{
-				type="client",
-				event="mojito_pdm:client:open",
-				icon="fas fa-book-open",
-				label="Open Catalogue"
-			},
-			{
-				type="client",
-				event="mojito_pdm:client:check_finance",
-				icon="fas fa-comment-dollar",
-				label="Check Finance"
-			}
+["mojito_pdm"] = {
+	name="mojito_pdm",
+	coords=vector3(-55.17767, -1096.946, 26.62873),	
+	radius=0.4,
+	useZ=true,
+	options = {
+		{
+			type="client",
+			event="mojito_pdm:client:open",
+			icon="fas fa-book-open",
+			label="Open Catalogue"
 		},
-		distance=1.0
-	}
+		{
+			type="client",
+			event="mojito_pdm:client:check_finance",
+			icon="fas fa-comment-dollar",
+			label="Check Finance"
+		}
+	},
+	distance=1.0
+}
 ```
 
 ## Building
