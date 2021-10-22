@@ -16,7 +16,26 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 - [x] Buy vehicles from the catalogue
 - [x] Learn how to use state management libraries to fix the janky react code
 - [x] Add the config option to restrict usage when car dealers are online
-- [ ] Pull prices and trunk weight from shared.lua, for now these are static
+- [ ] Finance System
+
+## Instalation
+Download the latest version from the releases. Note that the master branch is not considered the most stable branch and you should not build from master unless you know what you're doing.
+
+If you have buying and finance enabled you need to add the following to your database and install the [cron](https://github.com/esx-framework/cron) dependency
+```sql
+CREATE TABLE IF NOT EXISTS `vehicle_finance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `plate` varchar(10) NOT NULL,
+  `citizenid` varchar(255) DEFAULT NULL,
+  `model` varchar(50) DEFAULT NULL,
+  `interest_rate` int(11) DEFAULT NULL,
+  `outstanding_bal` int(11) DEFAULT NULL,
+  `warning` tinyint(4) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `citizenid` (`citizenid`),
+  CONSTRAINT `cid` FOREIGN KEY (`citizenid`) REFERENCES `players` (`citizenid`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+```
 
 ## Config
 
@@ -34,32 +53,44 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
     "enabled": true,                                                                  // Set to true to restrict usage when car dealers are online                                  
     "jobname": "cardealer",                                                           // Name of car dealer job
     "count": 2                                                                        // Maximum amount of car dealers that can be online before restrictions
-  }  
+  },
+  "finance": {
+    "installment_percent": 10,                                                        // Percentage cost of finance installments
+    "runs_on": 1,                                                                     // The day of the week the installments are taken 1 = monday
+    "runs_at": "18:30"                                                                // The time of day the installments are taken in 24h format
+  }
 }
 ```
 
-To edit car information use `ui/src/cars.json` for now.
+To edit car information use `ui/src/cars.json` and compile, do this from the latest tagged version of the source code - the master branch is not considered stable.
 
 ## Usage
 
 To open trigger the event `mojito_pdm:client:open`, you can do this with 3D text, DrawTextUI or qb-target like so:
+To open the propmt to check finance trigger the event `mojito_pdm:client:check_finance`
 
 ```lua
-	["mojito_pdm"] = {
-		name="mojito_pdm",
-		coords=vector3(-55.17767, -1096.946, 26.62873),
-		radius=0.4,
-		useZ=true,
-		options = {
-			{
-				type="client",
-				event="mojito_pdm:client:open",
-				icon="fas fa-book-open",
-				label="Open Catalogue"
-			}
+["mojito_pdm"] = {
+	name="mojito_pdm",
+	coords=vector3(-55.17767, -1096.946, 26.62873),	
+	radius=0.4,
+	useZ=true,
+	options = {
+		{
+			type="client",
+			event="mojito_pdm:client:open",
+			icon="fas fa-book-open",
+			label="Open Catalogue"
 		},
-		distance=1.0
-	}
+		{
+			type="client",
+			event="mojito_pdm:client:check_finance",
+			icon="fas fa-comment-dollar",
+			label="Check Finance"
+		}
+	},
+	distance=1.0
+}
 ```
 
 ## Building
@@ -95,3 +126,6 @@ This project is using [Project Error's React Boilerplate](https://github.com/pro
 - Images and Brand Logos taken from [GTA Fandom Wiki](https://gta.fandom.com/wiki/) under CC-BY-SA license
 - Build and Release script taken from [fivem-appearance](https://github.com/pedr0fontoura/fivem-appearance) under MIT license
 - Github Actions workflow was created by [Taso](https://github.com/TasoOneAsia) for [txAdmin](https://github.com/tabarra/txAdmin) under MIT license
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.

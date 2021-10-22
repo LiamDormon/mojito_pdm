@@ -39,6 +39,10 @@ class Utils extends ServerUtils {
     if (!result) return plate;
     else return this.GeneratePlate();
   };
+
+  GenerateMailId = (): number => {
+    return Math.floor(Math.random() * 999999);
+  };
 }
 
 export let utils = new Utils();

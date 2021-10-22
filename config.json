@@ -8,8 +8,13 @@
   },
   "canbuy": true,
   "limit": {
-    "enabled": true,
+    "enabled": false,
     "jobname": "cardealer",
     "count": 2
+  },
+  "finance": {
+    "installment_percent": 20,
+    "runs_on": 1,
+    "runs_at": "18:30"
   }
 }

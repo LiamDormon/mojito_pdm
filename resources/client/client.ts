@@ -51,7 +51,7 @@ setImmediate(async () => {
 });
 
 RegisterNuiCB('fetch:canbuy', async (data, cb) => {
-  cb(Config.canbuy);
+  cb(Config?.canbuy || true);
 });
 
 RegisterNuiCB('buy_vehicle', async (data, cb) => {
@@ -100,4 +100,44 @@ utils.registerRPCListener<incommingVehicleBought>('mojito_pdm:client:vehicleboug
   );
 
   return properties;
+});
+
+interface IFinanceCB {
+  vehicle: string;
+  downpayPercent: number;
+}
+
+RegisterNuiCB<IFinanceCB>('finance_vehicle', (data, cb) => {
+  const { vehicle, downpayPercent } = data;
+  if (!QBCore.Shared.Vehicles[vehicle])
+    return QBCore.Functions.Notify('This vehicle does not appear to exist', 'error');
+  emitNet('mojito_pdm:server:finance_vehicle', vehicle, downpayPercent);
+
+  cb({});
+});
+
+interface IncommingFinanceMail {
+  vehicleName: string;
+  interest: number;
+  outstanding: number;
+}
+
+onNet('mojito_pdm:client:financed_vehicle_mail', (data: IncommingFinanceMail) => {
+  const { vehicleName, interest, outstanding } = data;
+
+  emitNet('qb-phone:server:sendNewMail', {
+    sender: 'Premium Deluxue Motorsport',
+    subject: 'Vehicle Finance',
+    message: `
+      Your new ${vehicleName} is ready for collection <br />
+      You have an outstanding balance of ${outstanding} at an interest rate of ${interest}% <br /> <br />
+      Sincerly, <br />
+      Los Santos Finance Ltd.
+    `,
+  });
+});
+
+on('mojito_pdm:client:check_finance', async () => {
+  const plate = await utils.TakePlateInput();
+  emitNet('mojito_pdm:server:check_finance', plate);
 });
