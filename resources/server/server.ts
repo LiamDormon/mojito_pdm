@@ -299,7 +299,7 @@ if (Config.canbuy) {
 
     global.exports.oxmysql.execute('SELECT * FROM vehicle_finance', (res: IFinanceDatabase[]) => {
       res.forEach(async (vehicle) => {
-        const { price } = QBCore.Shared.Vehicles[vehicle.model];
+        const { price, name, brand } = QBCore.Shared.Vehicles[vehicle.model];
         const payment = price * (Config.finance.installment_percent / 100);
 
         const Owner = QBCore.Functions.GetPlayerByCitizenId(vehicle.citizenid);
@@ -313,12 +313,43 @@ if (Config.canbuy) {
               global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
+
+              global.exports.oxmysql.insert(
+                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid) VALUES (:cid, :sender, :subject, :message, :mailid)',
+                {
+                  cid: vehicle.citizenid,
+                  sender: 'PDM Finance Ltd.',
+                  subject: 'Vehicle Finance',
+                  message: `
+                We are pleased to inform you that your ${brand} ${name}, Reg: ${vehicle.plate} has now been fully paid off. <br /> <br />
+                Sincerly, <br />
+                PDM Finance Ltd.
+                `,
+                  mailid: utils.GenerateMailId(),
+                },
+              );
             } else {
               outstanding = outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
               global.exports.oxmysql.update(
                 'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
                 {
                   outstanding: outstanding,
+                },
+              );
+
+              global.exports.oxmysql.insert(
+                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid) VALUES (:cid, :sender, :subject, :message, :mailid)',
+                {
+                  cid: vehicle.citizenid,
+                  sender: 'PDM Finance Ltd.',
+                  subject: 'Vehicle Finance',
+                  message: `
+                We have deducted $${payment} from your bank account for your ${brand} ${name}, Reg: ${vehicle.plate} and ${vehicle.interest_rate}% interest has been applied <br />
+                Your outstanding balance is now $${outstanding}<br /> <br />
+                Sincerly, <br />
+                PDM Finance Ltd.
+                `,
+                  mailid: utils.GenerateMailId(),
                 },
               );
             }
@@ -331,6 +362,21 @@ if (Config.canbuy) {
               global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
+
+              global.exports.oxmysql.insert(
+                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid) VALUES (:cid, :sender, :subject, :message, :mailid)',
+                {
+                  cid: vehicle.citizenid,
+                  sender: 'PDM Finance Ltd.',
+                  subject: 'Vehicle Finance',
+                  message: `
+                We regret to inform you that your ${brand} ${name}, Reg: ${vehicle.plate} has been repossed due to missed payments <br />
+                Sincerly, <br />
+                PDM Finance Ltd.
+                `,
+                  mailid: utils.GenerateMailId(),
+                },
+              );
             } else {
               let outstanding = vehicle.outstanding_bal - bank;
               outstanding += outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
@@ -338,6 +384,23 @@ if (Config.canbuy) {
                 'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 1',
                 {
                   outstanding: outstanding,
+                },
+              );
+
+              global.exports.oxmysql.insert(
+                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid) VALUES (:cid, :sender, :subject, :message, :mailid)',
+                {
+                  cid: vehicle.citizenid,
+                  sender: 'PDM Finance Ltd.',
+                  subject: 'Vehicle Finance',
+                  message: `
+                You could not afford the due payment of ${payment} for your ${brand} ${name}, Reg: ${vehicle.plate} <br />
+                If you miss your next payment your vehicle will be repossesed.
+                Your outstanding balance is now $${outstanding}<br /> <br />
+                Sincerly, <br />
+                PDM Finance Ltd.
+                `,
+                  mailid: utils.GenerateMailId(),
                 },
               );
             }
@@ -368,12 +431,43 @@ if (Config.canbuy) {
               global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
+
+              global.exports.oxmysql.insert(
+                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid) VALUES (:cid, :sender, :subject, :message, :mailid)',
+                {
+                  cid: vehicle.citizenid,
+                  sender: 'PDM Finance Ltd.',
+                  subject: 'Vehicle Finance',
+                  message: `
+                We are pleased to inform you that your ${brand} ${name}, Reg: ${vehicle.plate} has now been fully paid off. <br /> <br />
+                Sincerly, <br />
+                PDM Finance Ltd.
+                `,
+                  mailid: utils.GenerateMailId(),
+                },
+              );
             } else {
               outstanding = outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
               global.exports.oxmysql.update(
                 'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
                 {
                   outstanding: outstanding,
+                },
+              );
+
+              global.exports.oxmysql.insert(
+                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid) VALUES (:cid, :sender, :subject, :message, :mailid)',
+                {
+                  cid: vehicle.citizenid,
+                  sender: 'PDM Finance Ltd.',
+                  subject: 'Vehicle Finance',
+                  message: `
+                We have deducted $${payment} from your bank account for your ${brand} ${name}, Reg: ${vehicle.plate} and ${vehicle.interest_rate}% interest has been applied <br />
+                Your outstanding balance is now $${outstanding}<br /> <br />
+                Sincerly, <br />
+                PDM Finance Ltd.
+                `,
+                  mailid: utils.GenerateMailId(),
                 },
               );
             }
@@ -390,6 +484,22 @@ if (Config.canbuy) {
 
             if (vehicle.warning === 1) {
               // Vehicle is repossesd
+
+              global.exports.oxmysql.insert(
+                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid) VALUES (:cid, :sender, :subject, :message, :mailid)',
+                {
+                  cid: vehicle.citizenid,
+                  sender: 'PDM Finance Ltd.',
+                  subject: 'Vehicle Finance',
+                  message: `
+                We regret to inform you that your ${brand} ${name}, Reg: ${vehicle.plate} has been repossed due to missed payments <br />
+                Sincerly, <br />
+                PDM Finance Ltd.
+                `,
+                  mailid: utils.GenerateMailId(),
+                },
+              );
+
               global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
@@ -400,6 +510,23 @@ if (Config.canbuy) {
                 'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 1',
                 {
                   outstanding: outstanding,
+                },
+              );
+
+              global.exports.oxmysql.insert(
+                'INSERT INTO player_mails (citizenid, sender, subject, message, mailid) VALUES (:cid, :sender, :subject, :message, :mailid)',
+                {
+                  cid: vehicle.citizenid,
+                  sender: 'PDM Finance Ltd.',
+                  subject: 'Vehicle Finance',
+                  message: `
+                You could not afford the due payment of ${payment} for your ${brand} ${name}, Reg: ${vehicle.plate} <br />
+                If you miss your next payment your vehicle will be repossesed.
+                Your outstanding balance is now $${outstanding}<br /> <br />
+                Sincerly, <br />
+                PDM Finance Ltd.
+                `,
+                  mailid: utils.GenerateMailId(),
                 },
               );
             }
