@@ -11,12 +11,13 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 - Pre-configured vehicles and prices
 - Test Driving with configurable locations and timer
 - Buy vehicles from the catalogue
+- Finance vehicles
 
 ## Todos
 - [x] Buy vehicles from the catalogue
 - [x] Learn how to use state management libraries to fix the janky react code
 - [x] Add the config option to restrict usage when car dealers are online
-- [ ] Finance System
+- [x] Finance System
 
 ## Instalation
 Download the latest version from the releases. Note that the master branch is not considered the most stable branch and you should not build from master unless you know what you're doing.
@@ -63,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_finance` (
 ```
 
 To edit car information use `ui/src/cars.json` and compile, do this from the latest tagged version of the source code - the master branch is not considered stable.
+This data is matching that of the shared.lua of the offical qbcore repository at the time of writing, some vehicles are missing and contributing is very much appreciated and credit will be given.
 
 ## Usage
 
