@@ -297,7 +297,7 @@ if (Config.canbuy) {
 
     console.log('[mojito_pdm]: Running cron task');
 
-    global.exports.oxymsql.execute('SELECT * FROM vehicle_finance', (res: IFinanceDatabase[]) => {
+    global.exports.oxmysql.execute('SELECT * FROM vehicle_finance', (res: IFinanceDatabase[]) => {
       res.forEach(async (vehicle) => {
         const { price } = QBCore.Shared.Vehicles[vehicle.model];
         const payment = price * (Config.finance.installment_percent / 100);
@@ -310,15 +310,15 @@ if (Config.canbuy) {
             Owner.Functions.RemoveMoney('bank', payment, 'vehicle-finance-paid');
             let outstanding = vehicle.outstanding_bal - payment;
             if (outstanding <= 0) {
-              global.exports.oxymsql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
+              global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
 
               return;
             }
 
-            outstanding += outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
-            global.exports.oxymsql.update(
+            outstanding = outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
+            global.exports.oxmysql.update(
               'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
               {
                 outstanding: outstanding,
@@ -330,13 +330,13 @@ if (Config.canbuy) {
 
             if (vehicle.warning === 1) {
               // Vehicle is repossesd
-              global.exports.oxymsql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
+              global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
             } else {
               let outstanding = vehicle.outstanding_bal - bank;
               outstanding += outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
-              global.exports.oxymsql.update(
+              global.exports.oxmysql.update(
                 'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 1',
                 {
                   outstanding: outstanding,
@@ -345,12 +345,13 @@ if (Config.canbuy) {
             }
           }
         } else {
-          const Owner = await global.exports.oxymsql.single(
-            'SELECT FROM players WHERE citizenid = :citizenid',
+          const Owner = await global.exports.oxmysql.singleSync(
+            'SELECT * FROM `players` WHERE `citizenid` = :citizenid',
             {
               citizenid: vehicle.citizenid,
             },
           );
+
 
           const money = JSON.parse(Owner.money);
           let bank = money.bank;
@@ -367,15 +368,15 @@ if (Config.canbuy) {
 
             let outstanding = vehicle.outstanding_bal - payment;
             if (outstanding <= 0) {
-              global.exports.oxymsql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
+              global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
 
               return;
             }
 
-            outstanding += outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
-            global.exports.oxymsql.update(
+            outstanding = outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
+            global.exports.oxmysql.update(
               'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
               {
                 outstanding: outstanding,
@@ -394,13 +395,13 @@ if (Config.canbuy) {
 
             if (vehicle.warning === 1) {
               // Vehicle is repossesd
-              global.exports.oxymsql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
+              global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
             } else {
               let outstanding = vehicle.outstanding_bal - bank;
               outstanding += outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
-              global.exports.oxymsql.update(
+              global.exports.oxmysql.update(
                 'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 1',
                 {
                   outstanding: outstanding,
@@ -414,4 +415,9 @@ if (Config.canbuy) {
   };
 
   emit('cron:runAt', hour, minute, CronTask);
+
+  RegisterCommand("test:cron", (source: number) => {
+    if (source != 0) return;
+    CronTask(1)
+  }, false)
 }
