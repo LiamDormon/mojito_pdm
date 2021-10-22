@@ -45,16 +45,17 @@ class Utils extends ClientUtils {
         await this.Wait(10);
       }
       const TabletModel = GetHashKey('prop_cs_tablet');
-      // TODO: Check if already exists
-      Player(-1).state['PDMTabletModel'] = CreateObject(
-        TabletModel,
-        1.0,
-        1.0,
-        1.0,
-        true,
-        true,
-        false,
-      );
+      if (!DoesEntityExist(Player(-1).state['PDMTabletModel'])) {
+        Player(-1).state['PDMTabletModel'] = CreateObject(
+            TabletModel,
+            1.0,
+            1.0,
+            1.0,
+            true,
+            true,
+            false,
+        );
+      }
       const bone = GetPedBoneIndex(Ped, 60309);
 
       AttachEntityToEntity(
