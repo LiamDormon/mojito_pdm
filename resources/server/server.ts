@@ -313,17 +313,15 @@ if (Config.canbuy) {
               global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
-
-              return;
+            } else {
+              outstanding = outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
+              global.exports.oxmysql.update(
+                'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
+                {
+                  outstanding: outstanding,
+                },
+              );
             }
-
-            outstanding = outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
-            global.exports.oxmysql.update(
-              'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
-              {
-                outstanding: outstanding,
-              },
-            );
           } else {
             // Take all we can
             Owner.Functions.SetMoney('bank', 0);
@@ -352,7 +350,6 @@ if (Config.canbuy) {
             },
           );
 
-
           const money = JSON.parse(Owner.money);
           let bank = money.bank;
 
@@ -371,17 +368,15 @@ if (Config.canbuy) {
               global.exports.oxmysql.execute('DELETE FROM vehicle_finance WHERE plate = :plate', {
                 plate: vehicle.plate,
               });
-
-              return;
+            } else {
+              outstanding = outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
+              global.exports.oxmysql.update(
+                'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
+                {
+                  outstanding: outstanding,
+                },
+              );
             }
-
-            outstanding = outstanding * (vehicle.interest_rate / 100 + 1.0); // Apply interest
-            global.exports.oxmysql.update(
-              'UPDATE vehicle_finance SET outstanding_bal = :outstanding, warning = 0',
-              {
-                outstanding: outstanding,
-              },
-            );
           } else {
             // Take all we can
             money.bank = 0;
@@ -416,8 +411,12 @@ if (Config.canbuy) {
 
   emit('cron:runAt', hour, minute, CronTask);
 
-  RegisterCommand("test:cron", (source: number) => {
-    if (source != 0) return;
-    CronTask(1)
-  }, false)
+  RegisterCommand(
+    'test:cron',
+    (source: number) => {
+      if (source != 0) return;
+      CronTask(1);
+    },
+    false,
+  );
 }
