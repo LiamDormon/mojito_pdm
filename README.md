@@ -2,8 +2,12 @@
 
 React / Typescript Catalogue for PDM, complete with test driving and purchasing
 
-![Light Theme](https://i.imgur.com/47YYveC.png)
-![Dark Theme](https://i.imgur.com/PCP4U5C.png)
+![Light Theme](https://i.imgur.com/3TZhwyk.jpg)
+![Dark Theme](https://i.imgur.com/Z46KGkw.jpg)
+
+<p align="center">
+	<a href="https://imgur.com/a/sx9xOen"> Imgur Album </a>
+</p>
 
 ## Features
 - High Performance Material UI
