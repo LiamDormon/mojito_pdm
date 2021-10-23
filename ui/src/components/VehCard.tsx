@@ -30,8 +30,8 @@ const VehCard: React.FC<Car> = ({
     const theme = useTheme();
 
     const [open, setOpen] = useState<boolean>(false)
-    const testDrive = () => {
-        fetchNui("test_drive", {vehicle: spawncode}).then()
+    const testDrive = async () => {
+        await fetchNui("test_drive", {vehicle: spawncode})
     }
 
     // Functions

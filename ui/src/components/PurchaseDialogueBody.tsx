@@ -20,7 +20,7 @@ const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price
         setDialogueOpen(false)
     }
 
-    const handleAccept = () => {
+    const handleAccept = async () => {
         setDialogueOpen(false)
         setModalOpen(false)
         try {

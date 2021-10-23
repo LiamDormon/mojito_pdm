@@ -24,8 +24,9 @@ const Header: React.FC<IHeader> = (props) => {
     const theme = useTheme();
     const [colorMode, setColorMode] = useRecoilState(GlobalState.theme)
 
-    const handleExit = () => {
-        fetchNui("exit").then(() => {
+    const handleExit = async () => {
+        try {
+            await fetchNui("exit")
             window.dispatchEvent(
                 new MessageEvent("message", {
                     data: {
@@ -34,9 +35,9 @@ const Header: React.FC<IHeader> = (props) => {
                     },
                 })
             );
-        }).catch(e => {
+        } catch (e) {
             console.error(e)
-        })
+        }
     }
 
     const handleThemeswitch = () => {
