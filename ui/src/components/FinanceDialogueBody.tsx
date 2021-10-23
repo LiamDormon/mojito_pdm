@@ -34,29 +34,27 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
         setDialogueOpen(false)
     }
 
-    const handleAccept = () => {
+    const handleAccept = async () => {
         setDialogueOpen(false)
         setModalOpen(false)
 
-        fetchNui("finance_vehicle", {
-            vehicle: spawncode,
-            downpayPercent: downpay,
-        }).then(() => {
-            fetchNui("exit").then(() => {
-                window.dispatchEvent(
-                    new MessageEvent("message", {
-                        data: {
-                            action: "setVisible",
-                            data: false,
-                        },
-                    })
-                );
-            }).catch(e => {
-                console.error(e)
+        try {
+            await fetchNui<void>("finance_vehicle", {
+                vehicle: spawncode,
+                downpayPercent: downpay,
             })
-        }).catch((e) => {
+            await fetchNui("exit")
+            window.dispatchEvent(
+                new MessageEvent("message", {
+                    data: {
+                        action: "setVisible",
+                        data: false,
+                    },
+                })
+            );
+        } catch (e) {
             console.error(e)
-        })
+        }
     }
 
     const calculateDownpayment = () => {

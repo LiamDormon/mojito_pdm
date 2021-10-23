@@ -23,25 +23,22 @@ const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price
     const handleAccept = () => {
         setDialogueOpen(false)
         setModalOpen(false)
-        // Send the event to buy the vehicle, then close the whole thing
-        fetchNui("buy_vehicle", {
-            vehicle: spawncode
-        }).then(() => {
-            fetchNui("exit").then(() => {
-                window.dispatchEvent(
-                    new MessageEvent("message", {
-                        data: {
-                            action: "setVisible",
-                            data: false,
-                        },
-                    })
-                );
-            }).catch(e => {
-                console.error(e)
+        try {
+            await fetchNui<void>("buy_vehicle", {
+                vehicle: spawncode,
             })
-        }).catch((e) => {
+            await fetchNui("exit")
+            window.dispatchEvent(
+                new MessageEvent("message", {
+                    data: {
+                        action: "setVisible",
+                        data: false,
+                    },
+                })
+            );
+        } catch (e) {
             console.error(e)
-        })
+        }
     }
 
     return (
