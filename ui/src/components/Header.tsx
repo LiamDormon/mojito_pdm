@@ -1,5 +1,4 @@
 import React, {Dispatch, SetStateAction} from 'react'
-import {useTheme} from '@mui/material/styles';
 import {
     AppBar,
     Toolbar,
@@ -21,7 +20,6 @@ interface IHeader {
 }
 
 const Header: React.FC<IHeader> = (props) => {
-    const theme = useTheme();
     const [colorMode, setColorMode] = useRecoilState(GlobalState.theme)
 
     const handleExit = async () => {
@@ -53,7 +51,7 @@ const Header: React.FC<IHeader> = (props) => {
 
                 <CategorySelect {...props} />
                 <IconButton sx={{ml: 1}} onClick={handleThemeswitch} color="inherit">
-                    {theme.palette.mode === 'dark' ? <Brightness7Icon/> : <Brightness4Icon/>}
+                    {colorMode === 'dark' ? <Brightness7Icon/> : <Brightness4Icon/>}
                 </IconButton>
                 <IconButton sx={{ml: 1}} onClick={handleExit} color="inherit">
                     <CloseIcon/>
