@@ -16,6 +16,17 @@ interface IFinanceDialogueBody {
     setModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
+interface iInterest {
+    [key: number]: number
+}
+
+const interestRates: iInterest = {
+    10: 20,
+    20: 15,
+    30: 10,
+    40: 5
+}
+
 const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, setDialogueOpen, setModalOpen}) => {
     const [downpay, setDownpay] = useState<number>(20)
 
@@ -56,17 +67,6 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
 
     const onSliderChange = (e: any) => {
         setDownpay(e.target.value)
-    }
-
-    interface iInterest {
-        [key: number]: number
-    }
-
-    const interestRates: iInterest = {
-        10: 20,
-        20: 15,
-        30: 10,
-        40: 5
     }
 
     return (
