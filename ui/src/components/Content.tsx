@@ -18,8 +18,8 @@ interface IContent {
 
 const Content: React.FC<IContent> = ({cat}) => {
     const [data, setData] = useState<Car[]>([])
-    const [limit, setLimit] = useState<number>(12)
-    const [maxdepth, setMaxdepth] = useState<boolean>(false)
+    const [limit, setLimit] = useState(12)
+    const [maxdepth, setMaxdepth] = useState(false)
 
     const theme = useTheme()
 

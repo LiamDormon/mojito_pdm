@@ -28,7 +28,7 @@ const interestRates: iInterest = {
 }
 
 const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, setDialogueOpen, setModalOpen}) => {
-    const [downpay, setDownpay] = useState<number>(20)
+    const [downpay, setDownpay] = useState(20)
 
     const handleClose = () => {
         setDialogueOpen(false)

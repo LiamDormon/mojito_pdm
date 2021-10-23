@@ -4,7 +4,7 @@ import Header from "./Header";
 import Content from "./Content";
 
 const Catalogue: React.FC = () => {
-    const [cat, setCat] = useState<string>("")
+    const [cat, setCat] = useState("")
 
     return (
         <Grid container direction="column">

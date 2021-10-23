@@ -38,8 +38,8 @@ interface Modal {
 const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace, setOpen, performance, spawncode}) => {
     const [modalStyle] = useState(getModalStyle)
     const theme = useTheme()
-    const [pDialogueOpen, setpDialogueOpen] = useState<boolean>(false) // Purchase Dialogue
-    const [fDialogueOpen, setfDialogueOpen] = useState<boolean>(false) // Finance Dialogue
+    const [pDialogueOpen, setpDialogueOpen] = useState(false) // Purchase Dialogue
+    const [fDialogueOpen, setfDialogueOpen] = useState(false) // Finance Dialogue
 
     const handleClose = () => {
         setOpen(false)
