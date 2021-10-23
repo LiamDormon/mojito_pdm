@@ -10,7 +10,7 @@ import Catalogue from "./Catalogue";
 import Paper from '@mui/material/Paper'
 import {blue, grey} from '@mui/material/colors';
 import {CssBaseline} from "@mui/material";
-import {useRecoilState, useRecoilValue} from 'recoil'
+import {useSetRecoilState, useRecoilValue} from 'recoil'
 import GlobalState from "../state";
 
 debugData([
@@ -23,7 +23,7 @@ debugData([
 const App: React.FC = () => {
     const [isVisible, setIsVisible] = useState(false)
     const mode = useRecoilValue(GlobalState.theme)
-    const [, setBuyEnabled] = useRecoilState(GlobalState.canbuy)
+    const setBuyEnabled = useSetRecoilState(GlobalState.canbuy)
 
     useEffect(() => {
         fetchNui<boolean>("fetch:canbuy").then((data) => {
