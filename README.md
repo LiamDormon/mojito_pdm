@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS `vehicle_finance` (
   `warning` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`),
-  CONSTRAINT `cid` FOREIGN KEY (`citizenid`) REFERENCES `players` (`citizenid`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `cid` FOREIGN KEY (`citizenid`) REFERENCES `players` (`citizenid`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `plate` FOREIGN KEY (`plate`) REFERENCES `player_vehicles` (`plate`) ON UPDATE NO ACTION ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 ```
 
