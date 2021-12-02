@@ -17,6 +17,23 @@
     }
   },
   {
+    "name": "Previon",
+    "brand": "Karin",
+    "description": "The Futo is Karin's gift to a core demographic that needs nothing more than a lightweight chassis, rear wheel drive and dangerously poor traction to have some good wholesome fun.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/7/75/Karin-GTAO-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/d/d9/Previon-GTAO-front.png",
+    "price": "$21,500.00",
+    "category": "Coupe",
+    "spawncode": "previon",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 45,
+      "acceleration": 63,
+      "handling": 62,
+      "topspeed": 65
+    }
+  },
+  {
     "name": "Felon",
     "brand": "Lampadati",
     "description": "An Italian luxury car company founded in Bologna at the beginning of the 20th Century that focused on racing cars. Having failed to win many Grand Prix, they focused on making sports cars that impress vapid women. They've done this exceptionally well.",
@@ -493,6 +510,23 @@
     }
   },
   {
+    "name": "Warrener HKR",
+    "brand": "Vulcar",
+    "description": "Looking for something sturdy and reliable? Sometimes the car you need isn't the one you came in to buy. It's like going to the pound and being drawn to the old dog with three legs, one eye, and a real bad compulsion to hump anything that moves. If you can convince yourself that everyone is saying ew and wtf because it's just so gosh-darn adorable, the Warrener HKR is all set to be a companion for life.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/6/68/Vulcar-GTAV-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/f/f0/WarrenerHKR-GTAO-front.png",
+    "price": "$10,000.00",
+    "category": "Sedan",
+    "spawncode": "warrener2",
+    "trunkspace": "225 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
     "name": "Emperor",
     "brand": "Albany",
     "description": "You get what you pay for...",
@@ -558,6 +592,23 @@
       "acceleration": 50,
       "handling": 42,
       "topspeed": 68
+    }
+  },
+  {
+    "name": "Tailgater S",
+    "brand": "Obey",
+    "description": "After a day of synergizing teleconferences in your underwear, nothing provides an escape like the Tailgater S. Go to the right auto shop and you'll have a car that looks like a street racer on the outside, while on the inside it gives you the kind of air-conditioned comfort you need to pull over and give 110% in your team's 9pm Idea Shower.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/3/38/Obey-Logo-Badge-GTAO.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/8/83/TailgaterS-GTAO-front.png",
+    "price": "$35,000.00",
+    "category": "Sedan",
+    "spawncode": "tailgater2",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 67,
+      "acceleration": 55,
+      "handling": 45,
+      "topspeed": 72
     }
   },
   {
@@ -773,6 +824,40 @@
     "price": "$70,000.00",
     "category": "Muscle",
     "spawncode": "dominator3",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 70,
+      "acceleration": 68,
+      "handling": 60,
+      "topspeed": 77
+    }
+  },
+  {
+    "name": "Dominator GTT",
+    "brand": "Vapid",
+    "description": "You've met the Vapid Dominator, now it's time to meet its maker. And this quinquagenarian is still the hottest piece of muscle on the road. Don't believe us? Just climb inside and let the vibrations do the rest: zero to: Don't stop, Daddy in 4.76 seconds...",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/3/33/Vapid-GTAO-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/e/e0/DominatorGTT-GTAO-front.png",
+    "price": "$85,000.00",
+    "category": "Muscle",
+    "spawncode": "dominator8",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 70,
+      "acceleration": 68,
+      "handling": 60,
+      "topspeed": 77
+    }
+  },
+  {
+    "name": "Dominator ASP",
+    "brand": "Vapid",
+    "description": "From the all-American line of Dominators comes the middle generation ASP. Too contemporary to be a classic, too old-school to be cutting edge, this is the kind of car you forget all about until it punches you square in the junk. Now pony up.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/3/33/Vapid-GTAO-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/7/75/DominatorASP-GTAO-front.png",
+    "price": "$90,000.00",
+    "category": "Muscle",
+    "spawncode": "dominator7",
     "trunkspace": "100 KG",
     "performance": {
       "power": 70,
@@ -2159,6 +2244,23 @@
     }
   },
   {
+    "name": "Sultan RS Classic",
+    "brand": "Karin",
+    "description": "You might think the Sultan RS Classic is the perfect car for that Auntie your parents stopped inviting to Christmas. And it turns out that's true, because your parents suck, and your aunt sneaks out at the weekend to co-run legendary rally championships and stack-out her Hornbills loyalty card. Time to take after the wrong side of the family...",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/7/75/Karin-GTAO-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/4/45/SultanRSClassic-GTAO-front.png",
+    "price": "$80,000.00",
+    "category": "Sports",
+    "spawncode": "sultan3",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
     "name": "Itali GTB Custom",
     "brand": "Grotti",
     "description": "Featuring an aggressive styling and rounded design, the Itali GTB is distinguished by the large intakes on the front, with carbon-fibre inserts and separations on the lower side and a curved shape above.",
@@ -2405,6 +2507,40 @@
     "price": "$155,000.00",
     "category": "Sports",
     "spawncode": "comet5",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "Comet S2",
+    "brand": "Pfister",
+    "description": "This isn't just a fast car. It's a car with the kind of reputation that no amount of targeted advertising can buy. So, when some people see a Comet they make a wish. Others run screaming for cover, prophesying doom, destruction, and crippling medical expenses. Either way, you made an impression.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/8/88/Pfister-GTAO-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/c/c4/CometS2-GTAO-front.png",
+    "price": "$170,000.00",
+    "category": "Sports",
+    "spawncode": "comet6",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "Growler",
+    "brand": "Pfister",
+    "description": "You prefer the book to the movie. You drink spirits neat. You describe your sense of humor as 'subtle' and your love making as 'imperceptible'. You're The Thinking Person. And you choose handling over speed, control over power, and principle over pleasure. You choose wisely. You choose the Pfister Growler.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/8/88/Pfister-GTAO-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/7/78/Growler-GTAO-front.png",
+    "price": "$185,000.00",
+    "category": "Sports",
+    "spawncode": "growler",
     "trunkspace": "100 KG",
     "performance": {
       "power": 60,
@@ -2796,6 +2932,159 @@
     "price": "$90,500.00",
     "category": "Sports",
     "spawncode": "verlierer2",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "Calico GTF",
+    "brand": "Karin",
+    "description": "Ah, the 90's. Out of a chaotic fusion of grunge, dial-up, thirdwave feminism and feature-length porn came the Karin Calico GTF, a car that took a little bit of everything and made something new: muscle heritage, rally chops, street racer cred. Looks like it's time to drop the sticky VHS and curtain your hair, homeskillet: you've got some homework to do.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/7/75/Karin-GTAO-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/a/ad/CalicoGTF-GTAO-front.png",
+    "price": "$85,250.00",
+    "category": "Sports",
+    "spawncode": "calico",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "Euros",
+    "brand": "Annis",
+    "description": "I drove the Euros before it was cool... That's what you tell everyone as you drive your newly purchased Annis Euros, loudly reminiscing about the music you didn't listen to, the fashion you never wore, and the parties you didn't get invited to back in the aughts.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/3/3c/Annis-Logo-GTAO.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/3/3a/Euros-GTAO-front.png",
+    "price": "$170,250.00",
+    "category": "Sports",
+    "spawncode": "euros",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "Futo GTX",
+    "brand": "Karin",
+    "description": "In the way that some forty-year-old frat boys only respond to paddles and hardcore splooshing, the Futo GTX needs a firm hand to reach its optimal performance. In fact, it needs less of a driver and more of a disciplinarian. Enter at your at your own risk, and remember: this thing doesn't have a safe word.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/7/75/Karin-GTAO-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/b/bd/FutoGTX-GTAO-front.png",
+    "price": "$20,000.00",
+    "category": "Sports",
+    "spawncode": "futo2",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "Jester RR",
+    "brand": "Dinka",
+    "description": "Experts agree that the world is ending. And other experts agree that the only thing you can do about it is get online and fine tune your consumer choices. Introducing the latest Dinka Jester: the car with the killer smile is back, and this time it's so deadpan we're pretty sure it's not even joking. So stop doomscrolling. You've found it.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/e/e5/Dinka-GTAO-Logo.svg",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/7/7c/JesterRR-GTAO-front.png",
+    "price": "$260,000.00",
+    "category": "Sports",
+    "spawncode": "jester4",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "Remus",
+    "brand": "Annis",
+    "description": "Bow down because you're in the presence of JDM nobility. the dynastic prowess of the Annis Remus is a powerful thing. An example? Just kick the back out through the middle of Legion Square, thinly spread a couple dozen onlookers across the tarmac, and listen to nothing but thunderous applause. Long live the emperor!",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/3/3c/Annis-Logo-GTAO.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/8/88/Remus-GTAO-front.png",
+    "price": "$80,000.00",
+    "category": "Sports",
+    "spawncode": "remus",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "RT3000",
+    "brand": "Dinka",
+    "description": "There's more power behind the Dinka RT3000 than the Palmer-Taylor Power Station when they break out the party dust, start the rave, and let the reactor do its thing. It's not a complicated formula, but it works.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/e/e5/Dinka-GTAO-Logo.svg",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/e/ea/RT3000-GTAO-front.png",
+    "price": "$200,000.00",
+    "category": "Sports",
+    "spawncode": "rt3000",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "ZR350",
+    "brand": "Annis",
+    "description": "The nods of recognition, the pointing, the fanboys passing out in ecstasy. Witnessing the big power ZR350 revving up to tear a hole through an underground parking lot never gets old. And when you burn these tires out, they'll fight to see who gets to breathe in your polycyclic aromatic hydrocarbons - because this much clout is seriously intoxicating.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/3/3c/Annis-Logo-GTAO.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/3/3b/ZR350-GTAO-front.png",
+    "price": "$145,500.00",
+    "category": "Sports",
+    "spawncode": "zr350",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "Vectre",
+    "brand": "Emperor",
+    "description": "Too extra for the classics? More over-the-top than underground? Forget trying to find that scrapyard bucket and make the only first impression that counts in the Emperor Vectre. Like a supermodel with a mean 100m sprint, this is the kind of narcissism that'll ride you till you're raw and leave you with nothing but gratitude.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/1/16/Emperor-GTAO-Logo.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/8/8a/Vectre-GTAO-front.png",
+    "price": "$115,000.00",
+    "category": "Sports",
+    "spawncode": "vectre",
+    "trunkspace": "100 KG",
+    "performance": {
+      "power": 60,
+      "acceleration": 40,
+      "handling": 42,
+      "topspeed": 60
+    }
+  },
+  {
+    "name": "Cypher",
+    "brand": "Übermacht",
+    "description": "Powerful, intimidating and a little sadistic, driving the Cypher is the most hardcore experience to come out of Germany since der menschlichen Toilette.",
+    "brandLogo": "https://static.wikia.nocookie.net/gtawiki/images/c/cc/Revolter-GTAV-detail.png",
+    "image": "https://static.wikia.nocookie.net/gtawiki/images/8/8a/Vectre-GTAO-front.png",
+    "price": "$125,000.00",
+    "category": "Sports",
+    "spawncode": "cypher",
     "trunkspace": "100 KG",
     "performance": {
       "power": 60,
