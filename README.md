@@ -2,11 +2,11 @@
 
 React / Typescript Catalogue for PDM, complete with test driving and purchasing
 
-![Light Theme](https://i.imgur.com/3TZhwyk.jpg)
-![Dark Theme](https://i.imgur.com/Z46KGkw.jpg)
+![Light Theme](https://i.imgur.com/j0z9Z4H.png)
+![Dark Theme](https://i.imgur.com/jN4uto3.png)
 
 <p align="center">
-	<a href="https://imgur.com/a/sx9xOen"> Imgur Album </a>
+	<a href="https://imgur.com/a/GozMbRX"> Imgur Album </a>
 </p>
 
 ## Features
