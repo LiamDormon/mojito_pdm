@@ -48,7 +48,7 @@ RegisterNuiCB('fetch:canbuy', async (data, cb) => {
 });
 
 RegisterNuiCB('buy_vehicle', async (data, cb) => {
-  const {vehicle, colour} = data;
+  const { vehicle, colour } = data;
 
   if (!QBCore.Shared.Vehicles[vehicle]) {
     return QBCore.Functions.Notify(
@@ -83,29 +83,32 @@ interface incommingVehicleBought {
   colour: RgbColour;
 }
 
-utils.registerRPCListener<incommingVehicleBought>('mojito_pdm:client:vehiclebought', async (data) => {
-  const properties: Promise<VehicleProperties> = new Promise(resolve => {
-    const {r, g, b} = data.colour;
-    QBCore.Functions.SpawnVehicle(
+utils.registerRPCListener<incommingVehicleBought>(
+  'mojito_pdm:client:vehiclebought',
+  async (data) => {
+    const properties: Promise<VehicleProperties> = new Promise((resolve) => {
+      const { r, g, b } = data.colour;
+      QBCore.Functions.SpawnVehicle(
         data.vehicle,
         (veh: number) => {
           SetEntityHeading(veh, Config.buylocation.h);
           SetVehicleNumberPlateText(veh, data.plate);
           SetEntityAsMissionEntity(veh, true, true);
           SetPedIntoVehicle(PlayerPedId(), veh, -1);
-          SetVehicleCustomPrimaryColour(veh, r, g, b)
-          SetVehicleCustomSecondaryColour(veh, r, g, b)
+          SetVehicleCustomPrimaryColour(veh, r, g, b);
+          SetVehicleCustomSecondaryColour(veh, r, g, b);
           global.exports['LegacyFuel'].SetFuel(veh, 100);
           emit('vehiclekeys:client:SetOwner', data.plate);
 
-          resolve(QBCore.Functions.GetVehicleProperties(veh))
+          resolve(QBCore.Functions.GetVehicleProperties(veh));
         },
         Config.buylocation,
-    );
-  })
+      );
+    });
 
-  return await properties;
-});
+    return await properties;
+  },
+);
 
 interface IFinanceCB {
   vehicle: string;
