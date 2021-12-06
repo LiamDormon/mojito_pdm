@@ -48,7 +48,7 @@ RegisterNuiCB('fetch:canbuy', async (data, cb) => {
 });
 
 RegisterNuiCB('buy_vehicle', async (data, cb) => {
-  const vehicle = data.vehicle;
+  const {vehicle, colour} = data;
 
   if (!QBCore.Shared.Vehicles[vehicle]) {
     return QBCore.Functions.Notify(
@@ -61,6 +61,7 @@ RegisterNuiCB('buy_vehicle', async (data, cb) => {
     'mojito_pdm:server:buyvehicle',
     {
       vehicle: vehicle,
+      colour: colour,
     },
   );
 
@@ -70,41 +71,53 @@ RegisterNuiCB('buy_vehicle', async (data, cb) => {
   cb({});
 });
 
+interface RgbColour {
+  r: number;
+  g: number;
+  b: number;
+}
+
 interface incommingVehicleBought {
   vehicle: string;
   plate: string;
+  colour: RgbColour;
 }
 
-utils.registerRPCListener<incommingVehicleBought>('mojito_pdm:client:vehiclebought', (data) => {
-  let properties: VehicleProperties = null;
-  QBCore.Functions.SpawnVehicle(
-    data.vehicle,
-    (veh: number) => {
-      SetEntityHeading(veh, Config.buylocation.h);
-      SetVehicleNumberPlateText(veh, data.plate);
-      SetEntityAsMissionEntity(veh, true, true);
-      SetPedIntoVehicle(PlayerPedId(), veh, -1);
-      global.exports['LegacyFuel'].SetFuel(veh, 100);
-      emit('vehiclekeys:client:SetOwner', data.plate);
+utils.registerRPCListener<incommingVehicleBought>('mojito_pdm:client:vehiclebought', async (data) => {
+  const properties: Promise<VehicleProperties> = new Promise(resolve => {
+    const {r, g, b} = data.colour;
+    QBCore.Functions.SpawnVehicle(
+        data.vehicle,
+        (veh: number) => {
+          SetEntityHeading(veh, Config.buylocation.h);
+          SetVehicleNumberPlateText(veh, data.plate);
+          SetEntityAsMissionEntity(veh, true, true);
+          SetPedIntoVehicle(PlayerPedId(), veh, -1);
+          SetVehicleCustomPrimaryColour(veh, r, g, b)
+          SetVehicleCustomSecondaryColour(veh, r, g, b)
+          global.exports['LegacyFuel'].SetFuel(veh, 100);
+          emit('vehiclekeys:client:SetOwner', data.plate);
 
-      properties = QBCore.Functions.GetVehicleProperties(veh);
-    },
-    Config.buylocation,
-  );
+          resolve(QBCore.Functions.GetVehicleProperties(veh))
+        },
+        Config.buylocation,
+    );
+  })
 
-  return properties;
+  return await properties;
 });
 
 interface IFinanceCB {
   vehicle: string;
   downpayPercent: number;
+  colour: RgbColour;
 }
 
 RegisterNuiCB<IFinanceCB>('finance_vehicle', (data, cb) => {
-  const { vehicle, downpayPercent } = data;
+  const { vehicle, downpayPercent, colour } = data;
   if (!QBCore.Shared.Vehicles[vehicle])
     return QBCore.Functions.Notify('This vehicle does not appear to exist', 'error');
-  emitNet('mojito_pdm:server:finance_vehicle', vehicle, downpayPercent);
+  emitNet('mojito_pdm:server:finance_vehicle', vehicle, downpayPercent, colour);
 
   cb({});
 });

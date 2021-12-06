@@ -8,6 +8,8 @@ import {
     Slider
 } from '@mui/material'
 import {fetchNui} from "../utils/fetchNui";
+import {RgbColorPicker, RgbColor} from "react-colorful";
+import './colourpicker.css'
 
 interface IFinanceDialogueBody {
     spawncode: string;
@@ -29,6 +31,7 @@ const interestRates: iInterest = {
 
 const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, setDialogueOpen, setModalOpen}) => {
     const [downpay, setDownpay] = useState(20)
+    const [colour, setColour] = useState<RgbColor>({r: 0, g: 0, b:0})
 
     const handleClose = () => {
         setDialogueOpen(false)
@@ -42,6 +45,7 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
             await fetchNui<void>("finance_vehicle", {
                 vehicle: spawncode,
                 downpayPercent: downpay,
+                colour: colour
             })
             await fetchNui("exit")
             window.dispatchEvent(
@@ -91,6 +95,12 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
                     getAriaValueText={(value) => value + "%"}
                     onChange={onSliderChange}
                 />
+
+                <DialogContentText>
+                    <br />
+                    Pick a colour, any colour:
+                    <RgbColorPicker color={colour} onChange={setColour} />
+                </DialogContentText>
 
             </DialogContent>
             <DialogActions>
