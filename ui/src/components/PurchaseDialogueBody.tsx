@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from 'react'
+import React, {Dispatch, SetStateAction, useState} from 'react'
 import {
     Button,
     DialogActions,
@@ -6,7 +6,9 @@ import {
     DialogContentText,
     DialogTitle
 } from '@mui/material'
-import {fetchNui} from "../utils/fetchNui";
+import {fetchNui} from "../utils/fetchNui"
+import {RgbColorPicker, RgbColor} from 'react-colorful'
+import './colourpicker.css';
 
 interface IPurchaseDialogueBody {
     spawncode: string;
@@ -16,6 +18,7 @@ interface IPurchaseDialogueBody {
 }
 
 const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price, setDialogueOpen, setModalOpen}) => {
+    const [colour, setColour] = useState<RgbColor>({r: 0, g: 0, b: 0})
     const handleClose = () => {
         setDialogueOpen(false)
     }
@@ -23,9 +26,11 @@ const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price
     const handleAccept = async () => {
         setDialogueOpen(false)
         setModalOpen(false)
+
         try {
             await fetchNui<void>("buy_vehicle", {
                 vehicle: spawncode,
+                colour: colour
             })
             await fetchNui("exit")
             window.dispatchEvent(
@@ -47,6 +52,12 @@ const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price
             <DialogContent>
                 <DialogContentText>
                     Do you want to purchase this vehicle for {price}?
+                </DialogContentText>
+
+                <DialogContentText>
+                    <br />
+                    Pick a colour, any colour:
+                    <RgbColorPicker color={colour} onChange={setColour} />
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
