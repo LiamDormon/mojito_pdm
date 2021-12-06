@@ -213,7 +213,6 @@ onNet('mojito_pdm:server:finance_vehicle', async (spawncode: string, downpayPerc
   Player.Functions.RemoveMoney('bank', downpay, 'finance-vehicle');
 
   const plate = await utils.GeneratePlate();
-  console.log("hi")
   const mods = await utils.callClientRPC('mojito_pdm:client:vehiclebought', src, {
     vehicle: spawncode,
     plate: plate,
