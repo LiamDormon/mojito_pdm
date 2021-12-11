@@ -2,11 +2,11 @@
 
 React / Typescript Catalogue for PDM, complete with test driving and purchasing
 
-![Light Theme](https://i.imgur.com/3TZhwyk.jpg)
-![Dark Theme](https://i.imgur.com/Z46KGkw.jpg)
+![Light Theme](https://i.imgur.com/j0z9Z4H.png)
+![Dark Theme](https://i.imgur.com/jN4uto3.png)
 
 <p align="center">
-	<a href="https://imgur.com/a/sx9xOen"> Imgur Album </a>
+	<a href="https://imgur.com/a/GozMbRX"> Imgur Album </a>
 </p>
 
 ## Features
@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS `vehicle_finance` (
   `warning` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`),
-  CONSTRAINT `cid` FOREIGN KEY (`citizenid`) REFERENCES `players` (`citizenid`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `cid` FOREIGN KEY (`citizenid`) REFERENCES `players` (`citizenid`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `plate` FOREIGN KEY (`plate`) REFERENCES `player_vehicles` (`plate`) ON UPDATE NO ACTION ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 ```
 
