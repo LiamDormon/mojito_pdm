@@ -28,19 +28,21 @@ Download the latest version from the releases. Note that the master branch is no
 
 If you have buying and finance enabled you need to add the following to your database and install the [cron](https://github.com/esx-framework/cron) dependency
 ```sql
-CREATE TABLE IF NOT EXISTS `vehicle_finance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plate` varchar(10) NOT NULL,
-  `citizenid` varchar(255) DEFAULT NULL,
-  `model` varchar(50) DEFAULT NULL,
-  `interest_rate` int(11) DEFAULT NULL,
-  `outstanding_bal` int(11) DEFAULT NULL,
-  `warning` tinyint(4) DEFAULT 0,
-  PRIMARY KEY (`id`),
-  KEY `citizenid` (`citizenid`),
-  CONSTRAINT `cid` FOREIGN KEY (`citizenid`) REFERENCES `players` (`citizenid`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `plate` FOREIGN KEY (`plate`) REFERENCES `player_vehicles` (`plate`) ON UPDATE NO ACTION ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+CREATE TABLE `vehicle_finance` IF NOT EXISTS (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `plate` VARCHAR(10) NOT NULL COLLATE 'utf8mb4_general_ci',
+    `citizenid` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+    `model` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+    `interest_rate` INT(11) NULL DEFAULT NULL,
+    `outstanding_bal` INT(11) NULL DEFAULT NULL,
+    `warning` TINYINT(4) NULL DEFAULT '0',
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `citizenid` (`citizenid`) USING BTREE,
+    INDEX `plate` (`plate`) USING BTREE,
+    CONSTRAINT `citizenid` FOREIGN KEY (`citizenid`) REFERENCES `qbcore`.`players` (`citizenid`) ON UPDATE NO ACTION ON DELETE CASCADE,
+    CONSTRAINT `plate` FOREIGN KEY (`plate`) REFERENCES `qbcore`.`player_vehicles` (`plate`) ON UPDATE NO ACTION ON DELETE CASCADE
+) COLLATE='utf8_general_ci' ENGINE=InnoDB AUTO_INCREMENT=1;
+
 ```
 
 ## Config
