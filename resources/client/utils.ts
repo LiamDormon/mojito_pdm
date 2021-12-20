@@ -20,23 +20,6 @@ class Utils extends ClientUtils {
     return minutes + ':' + seconds;
   };
 
-  TakePlateInput = async () => {
-    AddTextEntry('FMMC_KEY_TIP1', 'Enter your reg number:');
-    DisplayOnscreenKeyboard(1, 'FMMC_KEY_TIP1', '', '', '', '', '', 8);
-
-    while (UpdateOnscreenKeyboard() != 1 && UpdateOnscreenKeyboard() != 2) {
-      await this.Wait(10);
-    }
-
-    if (UpdateOnscreenKeyboard() != 2) {
-      const result = GetOnscreenKeyboardResult();
-      await this.Wait(500);
-      return result;
-    }
-
-    return '';
-  };
-
   Open = async (open: boolean) => {
     const Ped: number = PlayerPedId();
     if (open) {
