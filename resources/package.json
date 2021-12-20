@@ -12,9 +12,9 @@
   "dependencies": {
     "@citizenfx/client": "^2.0.4355-1",
     "@citizenfx/server": "^2.0.4355-1",
+    "@nativewrappers/client": "^1.5.37",
     "@project-error/pe-utils": "^0.2.7",
     "@types/node": "^16.3.1",
-    "fivem-js": "^1.5.2",
     "qbcore.js": "^1.2.3"
   },
   "devDependencies": {

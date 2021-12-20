@@ -1,7 +1,7 @@
 import { QBCore } from './qbcore';
 import { utils } from './utils';
 import { RegisterNuiCB, ServerPromiseResp } from '@project-error/pe-utils';
-import { Timerbar } from 'fivem-js';
+import { Menu, MenuAlignment, Timerbar, UIMenuItem } from '@nativewrappers/client';
 import Config from './config';
 import { VehicleProperties } from 'qbcore.js/@types/client';
 
@@ -146,7 +146,32 @@ onNet('mojito_pdm:client:financed_vehicle_mail', (data: IncommingFinanceMail) =>
   });
 });
 
+interface FinancedVehicles {
+  plate: string;
+  outstandingBal: number;
+  name: string;
+}
+
 on('mojito_pdm:client:check_finance', async () => {
-  const plate = await utils.TakePlateInput();
-  emitNet('mojito_pdm:server:check_finance', plate);
+  // const plate = await utils.TakePlateInput();
+  // emitNet('mojito_pdm:server:check_finance', plate);
+
+  const MENU = new Menu('PDM Finance Ltd', 'Check your outstanding balances');
+  MENU.Alignment = MenuAlignment.Right;
+
+  const resp = await utils.emitNetPromise<ServerPromiseResp<FinancedVehicles[]>>(
+    'mojito_pdm:getFinancedVehicles',
+    {},
+  );
+
+  if (resp.status == 'error') {
+    return QBCore.Functions.Notify('You do not have any vehicles on finance', 'error');
+  }
+
+  resp.data.forEach((item) => {
+    const MENU_ITEM = new UIMenuItem(`${item.name} [${item.plate}]`, `$${item.outstandingBal}`);
+    MENU.addItem(MENU_ITEM);
+  });
+
+  MENU.open();
 });

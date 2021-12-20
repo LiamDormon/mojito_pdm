@@ -289,6 +289,33 @@ interface IFinanceDatabase {
   warning: number;
 }
 
+utils.onNetPromise('mojito_pdm:getFinancedVehicles', async (req, res) => {
+  const { source } = req;
+  const { citizenid } = QBCore.Functions.GetPlayer(source).PlayerData;
+
+  const vehicles: IFinanceDatabase[] = await global.exports.oxmysql.executeSync(
+    'SELECT * FROM `vehicle_finance` WHERE `citizenid` = :cid',
+    {
+      cid: citizenid,
+    },
+  );
+
+  if (!vehicles || vehicles.length < 1) {
+    return res({
+      status: 'error',
+    });
+  }
+
+  res({
+    status: 'ok',
+    data: vehicles.map((item) => ({
+      plate: item.plate,
+      outstandingBal: item.outstanding_bal,
+      name: QBCore.Shared.Vehicles[item.model].name,
+    })),
+  });
+});
+
 if (Config.canbuy) {
   const [hour, minute] = Config.finance.runs_at.split(':');
   const day = Config.finance.runs_on;
@@ -538,13 +565,4 @@ if (Config.canbuy) {
   };
 
   emit('cron:runAt', hour, minute, CronTask);
-
-  RegisterCommand(
-    'test:cron',
-    (source: number) => {
-      if (source != 0) return;
-      CronTask(1);
-    },
-    false,
-  );
 }
