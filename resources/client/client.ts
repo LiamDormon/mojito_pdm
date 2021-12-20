@@ -10,18 +10,18 @@ on('mojito_pdm:client:open', async () => {
   if (Config.limit.enabled && serverResp.data > Config.limit.count)
     return QBCore.Functions.Notify('There are too many car dealers online', 'error');
 
-  utils.Open(true);
+  await utils.Open(true);
 });
 
-RegisterNuiCB('exit', (data, cb) => {
-  utils.Open(false);
+RegisterNuiCB('exit', async (data, cb) => {
+  await utils.Open(false);
   cb({});
 });
 
 RegisterNuiCB('test_drive', async (data, cb) => {
   const vehicle = data.vehicle;
 
-  utils.Open(false);
+  await utils.Open(false);
   setTimeout(() => {
     emitNet('mojito_pdm:server:testdrive', vehicle);
   }, 500);
