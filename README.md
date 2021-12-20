@@ -3,7 +3,8 @@
 React / Typescript Catalogue for PDM, complete with test driving and purchasing
 
 ![Light Theme](https://i.imgur.com/j0z9Z4H.png)
-![Dark Theme](https://i.imgur.com/jN4uto3.png)
+![Colour Picker](https://user-images.githubusercontent.com/66041893/146770988-a894b35f-a445-4e4c-b335-0a1a83685e85.png)
+
 
 <p align="center">
 	<a href="https://imgur.com/a/GozMbRX"> Imgur Album </a>
@@ -16,12 +17,7 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 - Test Driving with configurable locations and timer
 - Buy vehicles from the catalogue
 - Finance vehicles
-
-## Todos
-- [x] Buy vehicles from the catalogue
-- [x] Learn how to use state management libraries to fix the janky react code
-- [x] Add the config option to restrict usage when car dealers are online
-- [x] Finance System
+- View Outstanding Balances neatly organised in a menu
 
 ## Instalation
 Download the latest version from the releases. Note that the master branch is not considered the most stable branch and you should not build from master unless you know what you're doing.
