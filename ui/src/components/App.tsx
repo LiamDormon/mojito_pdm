@@ -27,7 +27,6 @@ const App: React.FC = () => {
 
     useEffect(() => {
         fetchNui<boolean>("fetch:canbuy").then((data) => {
-            console.log(data)
             setBuyEnabled(data)
         }).catch(() => {
             setBuyEnabled(true)

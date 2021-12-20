@@ -12,5 +12,6 @@
     "build:ui": "cd ui && npm i && npm run build",
     "build": "npm run build:resources && npm run build:ui",
     "build:release": "npm run build && node release.js"
-  }
+  },
+  "dependencies": {}
 }
