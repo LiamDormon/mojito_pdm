@@ -24,7 +24,7 @@ Download the latest version from the releases. Note that the master branch is no
 
 If you have buying and finance enabled you need to add the following to your database and install the [cron](https://github.com/esx-framework/cron) dependency
 ```sql
-CREATE TABLE `vehicle_finance` IF NOT EXISTS (
+CREATE TABLE `vehicle_finance` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `plate` VARCHAR(10) NOT NULL COLLATE 'utf8mb4_general_ci',
     `citizenid` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
