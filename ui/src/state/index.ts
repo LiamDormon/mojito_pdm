@@ -8,6 +8,10 @@ const GlobalState = {
     theme: atom<"light" | "dark">({
         key:"theme",
         default: "light",
+    }),
+    customcolours: atom<boolean>({
+        key: "customcolours",
+        default: false
     })
 }
 

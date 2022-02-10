@@ -22,12 +22,15 @@ debugData([
 const App: React.FC = () => {
     const mode = useRecoilValue(GlobalState.theme)
     const setBuyEnabled = useSetRecoilState(GlobalState.canbuy)
+    const setColoursEnabled = useSetRecoilState(GlobalState.customcolours)
 
     useEffect(() => {
-        fetchNui<boolean>("fetch:canbuy").then((data) => {
-            setBuyEnabled(data)
+        fetchNui<{ buy: boolean, colours: boolean }>("fetchconfig").then((data) => {
+            setBuyEnabled(data.buy)
+            setColoursEnabled(data.colours)
         }).catch(() => {
             setBuyEnabled(true)
+            setColoursEnabled(false)
         })
     })
 
