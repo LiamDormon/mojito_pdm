@@ -28,6 +28,7 @@ export interface IConfig {
   buylocation: Vector;
   temporary: ITemporary;
   canbuy: boolean;
+  colours: boolean;
   limit: ILimit;
   finance: IFinance;
   qbtarget: boolean;

@@ -65,7 +65,7 @@ interface RgbColour {
 
 interface incommingBuyVeh {
   vehicle: string;
-  colour: RgbColour;
+  colour: RgbColour | null
 }
 
 interface outgoingBuyVeh {
@@ -196,7 +196,7 @@ const interestRates: IInterest = {
 interface FinanceIncomming {
   vehicle: string;
   downpayPercent: number;
-  colour: RgbColour;
+  colour: RgbColour | null;
 }
 
 interface FinanceResp {
