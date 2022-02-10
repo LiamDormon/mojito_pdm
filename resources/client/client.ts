@@ -144,23 +144,27 @@ interface IFinanceCB {
     colour: RgbColour;
 }
 
-RegisterNuiCB<IFinanceCB>('finance_vehicle', (data, cb) => {
-    const {vehicle, downpayPercent, colour} = data;
-    if (!QBCore.Shared.Vehicles[vehicle])
-        return QBCore.Functions.Notify('This vehicle does not appear to exist', 'error');
-    emitNet('mojito_pdm:server:finance_vehicle', vehicle, downpayPercent, colour);
-
-    cb({});
-});
-
-interface IncommingFinanceMail {
+interface FinanceResp {
+    msg: string;
     vehicleName: string;
     interest: number;
     outstanding: number;
 }
 
-onNet('mojito_pdm:client:financed_vehicle_mail', (data: IncommingFinanceMail) => {
-    const {vehicleName, interest, outstanding} = data;
+RegisterNuiCB<IFinanceCB>('finance_vehicle', async (data, cb) => {
+    const {vehicle, downpayPercent, colour} = data;
+    if (!QBCore.Shared.Vehicles[vehicle])
+        return QBCore.Functions.Notify('This vehicle does not appear to exist', 'error');
+    emitNet('mojito_pdm:server:finance_vehicle', vehicle, downpayPercent, colour);
+
+    const resp = await utils.emitNetPromise<ServerPromiseResp<FinanceResp>>('mojito_pdm:server:finance_vehicle', {vehicle, downpayPercent, colour})
+    const {vehicleName, interest, outstanding} = resp.data;
+    const success = resp.status === "ok"
+
+    const type: string = success ? 'success' : 'error';
+    QBCore.Functions.Notify(resp.data.msg, type);
+    if (!success)
+        return
 
     emitNet('qb-phone:server:sendNewMail', {
         sender: 'Premium Deluxue Motorsport',
@@ -172,6 +176,8 @@ onNet('mojito_pdm:client:financed_vehicle_mail', (data: IncommingFinanceMail) =>
       Los Santos Finance Ltd.
     `,
     });
+
+    cb({});
 });
 
 interface FinancedVehicles {
@@ -181,9 +187,6 @@ interface FinancedVehicles {
 }
 
 on('mojito_pdm:client:check_finance', async () => {
-    // const plate = await utils.TakePlateInput();
-    // emitNet('mojito_pdm:server:check_finance', plate);
-
     const MENU = new Menu('PDM Finance Ltd', 'Check your outstanding balances');
     MENU.Alignment = MenuAlignment.Right;
 
