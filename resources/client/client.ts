@@ -5,6 +5,38 @@ import { Menu, MenuAlignment, Timerbar, UIMenuItem } from '@nativewrappers/clien
 import Config from './config';
 import { VehicleProperties } from 'qbcore.js/@types/client';
 
+const exp = global.exports;
+
+if (Config.qbtarget) {
+  exp['qb-target'].AddCircleZone(
+    'mojito_pdm',
+    { x: -55.17767, y: -1096.946, z: 26.62873 },
+    0.4,
+    {
+      name: 'mojito_pdm',
+      useZ: true,
+      debugPoly: false,
+    },
+    {
+      options: [
+        {
+          type: 'client',
+          event: 'mojito_pdm:client:open',
+          icon: 'fas fa-book-open',
+          label: 'Open Catalogue',
+        },
+        {
+          type: 'client',
+          event: 'mojito_pdm:client:check_finance',
+          icon: 'fas fa-comment-dollar',
+          label: 'Check Finance',
+        },
+      ],
+      distance: 1.0,
+    },
+  );
+}
+
 on('mojito_pdm:client:open', async () => {
   const serverResp = await utils.emitNetPromise<ServerPromiseResp<number>>('fetch:pdm_online', {});
   if (Config.limit.enabled && serverResp.data > Config.limit.count)
@@ -43,11 +75,19 @@ onNet('mojito_pdm:client:start_testdrive', (time: number) => {
   }, 1000);
 });
 
-RegisterNuiCB('fetch:canbuy', async (data, cb) => {
-  cb(Config.canbuy);
+RegisterNuiCB('fetchconfig', async (data, cb) => {
+  cb({
+    buy: Config.canbuy,
+    colours: Config.colours
+  });
 });
 
-RegisterNuiCB('buy_vehicle', async (data, cb) => {
+interface IVehicleBoughtCB {
+  vehicle: string;
+  colour: RgbColour | null;
+}
+
+RegisterNuiCB<IVehicleBoughtCB>('buy_vehicle', async (data, cb) => {
   const { vehicle, colour } = data;
 
   if (!QBCore.Shared.Vehicles[vehicle]) {
@@ -80,14 +120,15 @@ interface RgbColour {
 interface incommingVehicleBought {
   vehicle: string;
   plate: string;
-  colour: RgbColour;
+  colour: RgbColour | null;
 }
 
 utils.registerRPCListener<incommingVehicleBought>(
   'mojito_pdm:client:vehiclebought',
   async (data) => {
     const properties: Promise<VehicleProperties> = new Promise((resolve) => {
-      const { r, g, b } = data.colour;
+
+
       QBCore.Functions.SpawnVehicle(
         data.vehicle,
         (veh: number) => {
@@ -95,8 +136,11 @@ utils.registerRPCListener<incommingVehicleBought>(
           SetVehicleNumberPlateText(veh, data.plate);
           SetEntityAsMissionEntity(veh, true, true);
           SetPedIntoVehicle(PlayerPedId(), veh, -1);
-          SetVehicleCustomPrimaryColour(veh, r, g, b);
-          SetVehicleCustomSecondaryColour(veh, r, g, b);
+          if (data.colour) {
+            const { r, g, b } = data.colour;
+            SetVehicleCustomPrimaryColour(veh, r, g, b);
+            SetVehicleCustomSecondaryColour(veh, r, g, b);
+          }
           global.exports['LegacyFuel'].SetFuel(veh, 100);
           emit('vehiclekeys:client:SetOwner', data.plate);
 
@@ -113,26 +157,32 @@ utils.registerRPCListener<incommingVehicleBought>(
 interface IFinanceCB {
   vehicle: string;
   downpayPercent: number;
-  colour: RgbColour;
+  colour: RgbColour | null;
 }
 
-RegisterNuiCB<IFinanceCB>('finance_vehicle', (data, cb) => {
-  const { vehicle, downpayPercent, colour } = data;
-  if (!QBCore.Shared.Vehicles[vehicle])
-    return QBCore.Functions.Notify('This vehicle does not appear to exist', 'error');
-  emitNet('mojito_pdm:server:finance_vehicle', vehicle, downpayPercent, colour);
-
-  cb({});
-});
-
-interface IncommingFinanceMail {
+interface FinanceResp {
+  msg: string;
   vehicleName: string;
   interest: number;
   outstanding: number;
 }
 
-onNet('mojito_pdm:client:financed_vehicle_mail', (data: IncommingFinanceMail) => {
-  const { vehicleName, interest, outstanding } = data;
+RegisterNuiCB<IFinanceCB>('finance_vehicle', async (data, cb) => {
+  const { vehicle, downpayPercent, colour } = data;
+  if (!QBCore.Shared.Vehicles[vehicle])
+    return QBCore.Functions.Notify('This vehicle does not appear to exist', 'error');
+  emitNet('mojito_pdm:server:finance_vehicle', vehicle, downpayPercent, colour);
+
+  const resp = await utils.emitNetPromise<ServerPromiseResp<FinanceResp>>(
+    'mojito_pdm:server:finance_vehicle',
+    { vehicle, downpayPercent, colour },
+  );
+  const { vehicleName, interest, outstanding } = resp.data;
+  const success = resp.status === 'ok';
+
+  const type: string = success ? 'success' : 'error';
+  QBCore.Functions.Notify(resp.data.msg, type);
+  if (!success) return;
 
   emitNet('qb-phone:server:sendNewMail', {
     sender: 'Premium Deluxue Motorsport',
@@ -144,6 +194,8 @@ onNet('mojito_pdm:client:financed_vehicle_mail', (data: IncommingFinanceMail) =>
       Los Santos Finance Ltd.
     `,
   });
+
+  cb({});
 });
 
 interface FinancedVehicles {
@@ -153,9 +205,6 @@ interface FinancedVehicles {
 }
 
 on('mojito_pdm:client:check_finance', async () => {
-  // const plate = await utils.TakePlateInput();
-  // emitNet('mojito_pdm:server:check_finance', plate);
-
   const MENU = new Menu('PDM Finance Ltd', 'Check your outstanding balances');
   MENU.Alignment = MenuAlignment.Right;
 

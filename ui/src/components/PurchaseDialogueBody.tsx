@@ -9,6 +9,9 @@ import {
 import {fetchNui} from "../utils/fetchNui"
 import {RgbColorPicker, RgbColor} from 'react-colorful'
 import './colourpicker.css';
+import {useVisibility} from "../providers/visibility";
+import {useRecoilValue} from "recoil";
+import GlobalState from "../state";
 
 interface IPurchaseDialogueBody {
     spawncode: string;
@@ -22,25 +25,20 @@ const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price
     const handleClose = () => {
         setDialogueOpen(false)
     }
+    const {setVisible} = useVisibility()
+    const coloursEnabled = useRecoilValue(GlobalState.customcolours)
 
     const handleAccept = async () => {
         setDialogueOpen(false)
         setModalOpen(false)
 
         try {
-            await fetchNui<void>("buy_vehicle", {
+            await fetchNui("buy_vehicle", {
                 vehicle: spawncode,
-                colour: colour
+                colour: coloursEnabled ? colour : null
             })
             await fetchNui("exit")
-            window.dispatchEvent(
-                new MessageEvent("message", {
-                    data: {
-                        action: "setVisible",
-                        data: false,
-                    },
-                })
-            );
+            setVisible(false)
         } catch (e) {
             console.error(e)
         }
@@ -54,11 +52,14 @@ const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price
                     Do you want to purchase this vehicle for {price}?
                 </DialogContentText>
 
-                <DialogContentText>
-                    <br />
-                    Pick a colour, any colour:
-                    <RgbColorPicker color={colour} onChange={setColour} />
-                </DialogContentText>
+                {coloursEnabled &&
+                    <DialogContentText>
+                        <br />
+                        Pick a colour, any colour:
+                        <RgbColorPicker color={colour} onChange={setColour} />
+                    </DialogContentText>
+                }
+
             </DialogContent>
             <DialogActions>
                 <Button color="success" variant="outlined" onClick={handleAccept}>Yes</Button>

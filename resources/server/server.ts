@@ -65,7 +65,7 @@ interface RgbColour {
 
 interface incommingBuyVeh {
   vehicle: string;
-  colour: RgbColour;
+  colour: RgbColour | null
 }
 
 interface outgoingBuyVeh {
@@ -185,6 +185,7 @@ utils.onNetPromise<null, number>('fetch:pdm_online', (req, res) => {
 interface IInterest {
   [key: number]: number;
 }
+
 const interestRates: IInterest = {
   10: 20,
   20: 15,
@@ -192,31 +193,54 @@ const interestRates: IInterest = {
   40: 5,
 };
 
-onNet(
+interface FinanceIncomming {
+  vehicle: string;
+  downpayPercent: number;
+  colour: RgbColour | null;
+}
+
+interface FinanceResp {
+  msg: string;
+  vehicleName?: string;
+  interest?: number;
+  outstanding?: number;
+}
+
+utils.onNetPromise<FinanceIncomming, FinanceResp>(
   'mojito_pdm:server:finance_vehicle',
-  async (spawncode: string, downpayPercent: number, colour: RgbColour) => {
-    const { price, name, brand } = QBCore.Shared.Vehicles[spawncode];
+  async (req, res) => {
+    const { vehicle, downpayPercent, colour } = req.data;
+
+    if (!QBCore.Shared.Vehicles[vehicle]) {
+      return res({
+        data: { msg: 'Vehicle does not exist' },
+        status: 'error',
+      });
+    }
+
+    const { price, name, brand } = QBCore.Shared.Vehicles[vehicle];
+
     const downpay = Math.round(price * (downpayPercent / 100));
     const interestPercent = interestRates[downpayPercent];
-    const src = global.source;
+    const src = req.source;
 
     const Player = QBCore.Functions.GetPlayer(src);
     const { bank } = Player.PlayerData.money;
 
     if (bank - downpay <= 0) {
-      return emitNet(
-        'QBCore:Notify',
-        src,
-        'You have insufficient funds to finance this vehicle',
-        'error',
-      );
+      return res({
+        status: 'error',
+        data: {
+          msg: 'You have insufficient funds to finance this vehicle',
+        },
+      });
     }
 
     Player.Functions.RemoveMoney('bank', downpay, 'finance-vehicle');
 
     const plate = await utils.GeneratePlate();
     const mods = await utils.callClientRPC('mojito_pdm:client:vehiclebought', src, {
-      vehicle: spawncode,
+      vehicle: vehicle,
       plate: plate,
       colour: colour,
     });
@@ -226,8 +250,8 @@ onNet(
       [
         Player.PlayerData.license,
         Player.PlayerData.citizenid,
-        spawncode,
-        GetHashKey(spawncode),
+        vehicle,
+        GetHashKey(vehicle),
         JSON.stringify(mods),
         plate,
         0,
@@ -238,7 +262,7 @@ onNet(
 
     global.exports.oxmysql.insert(
       'INSERT INTO vehicle_finance (plate, citizenid, model, interest_rate, outstanding_bal) VALUES (?, ?, ?, ?, ?)',
-      [plate, Player.PlayerData.citizenid, spawncode, interestPercent, outstandingBal],
+      [plate, Player.PlayerData.citizenid, vehicle, interestPercent, outstandingBal],
     );
 
     emit(
@@ -251,10 +275,14 @@ onNet(
       )}** financed a ${name} ${brand}: \n Downpay: ${downpay} \n Interest Rate: ${interestPercent}`,
     );
 
-    emitNet('mojito_pdm:client:financed_vehicle_mail', src, {
-      vehicleName: `${brand} ${name}`,
-      outstanding: outstandingBal,
-      interest: interestPercent,
+    return res({
+      status: 'ok',
+      data: {
+        msg: 'You have successfully financed this vehicle',
+        vehicleName: `${brand} ${name}`,
+        outstanding: outstandingBal,
+        interest: interestPercent,
+      },
     });
   },
 );

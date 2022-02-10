@@ -10,6 +10,9 @@ import {
 import {fetchNui} from "../utils/fetchNui";
 import {RgbColorPicker, RgbColor} from "react-colorful";
 import './colourpicker.css'
+import {useVisibility} from "../providers/visibility";
+import {useRecoilValue} from "recoil";
+import GlobalState from "../state";
 
 interface IFinanceDialogueBody {
     spawncode: string;
@@ -32,6 +35,8 @@ const interestRates: iInterest = {
 const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, setDialogueOpen, setModalOpen}) => {
     const [downpay, setDownpay] = useState(20)
     const [colour, setColour] = useState<RgbColor>({r: 0, g: 0, b:0})
+    const {setVisible} = useVisibility()
+    const coloursEnabled = useRecoilValue(GlobalState.customcolours)
 
     const handleClose = () => {
         setDialogueOpen(false)
@@ -45,17 +50,10 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
             await fetchNui<void>("finance_vehicle", {
                 vehicle: spawncode,
                 downpayPercent: downpay,
-                colour: colour
+                colour: coloursEnabled ? colour : null
             })
             await fetchNui("exit")
-            window.dispatchEvent(
-                new MessageEvent("message", {
-                    data: {
-                        action: "setVisible",
-                        data: false,
-                    },
-                })
-            );
+            setVisible(false)
         } catch (e) {
             console.error(e)
         }
@@ -96,11 +94,13 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
                     onChange={onSliderChange}
                 />
 
+                {coloursEnabled &&
                 <DialogContentText>
                     <br />
                     Pick a colour, any colour:
                     <RgbColorPicker color={colour} onChange={setColour} />
                 </DialogContentText>
+                }
 
             </DialogContent>
             <DialogActions>

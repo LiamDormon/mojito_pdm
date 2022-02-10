@@ -1,8 +1,6 @@
-import React, {useState, useMemo, useEffect} from 'react';
+import React, {useMemo, useEffect} from 'react';
 import './App.css'
-import {useNuiEvent} from "../hooks/useNuiEvent";
 import {debugData} from "../utils/debugData";
-import {useExitListener} from "../hooks/useExitListener";
 import {fetchNui} from '../utils/fetchNui';
 import Box from '@mui/material/Box';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
@@ -12,6 +10,7 @@ import {blue, grey} from '@mui/material/colors';
 import {CssBaseline} from "@mui/material";
 import {useSetRecoilState, useRecoilValue} from 'recoil'
 import GlobalState from "../state";
+import {VisibilityProvider} from "../providers/visibility";
 
 debugData([
     {
@@ -21,15 +20,17 @@ debugData([
 ])
 
 const App: React.FC = () => {
-    const [isVisible, setIsVisible] = useState(false)
     const mode = useRecoilValue(GlobalState.theme)
     const setBuyEnabled = useSetRecoilState(GlobalState.canbuy)
+    const setColoursEnabled = useSetRecoilState(GlobalState.customcolours)
 
     useEffect(() => {
-        fetchNui<boolean>("fetch:canbuy").then((data) => {
-            setBuyEnabled(data)
+        fetchNui<{ buy: boolean, colours: boolean }>("fetchconfig").then((data) => {
+            setBuyEnabled(data.buy)
+            setColoursEnabled(data.colours)
         }).catch(() => {
             setBuyEnabled(true)
+            setColoursEnabled(false)
         })
     })
 
@@ -86,15 +87,9 @@ const App: React.FC = () => {
         [mode],
     );
 
-
-    useNuiEvent<boolean>('setVisible', (data) => {
-        setIsVisible(data)
-    })
-    useExitListener(setIsVisible)
-
     return (
         <ThemeProvider theme={theme}>
-            <div className="container" style={{visibility: isVisible ? "visible" : "hidden"}}>
+            <VisibilityProvider>
                 <Box sx={{
                     width: 1100,
                     height: 600,
@@ -104,7 +99,7 @@ const App: React.FC = () => {
                         <Catalogue/>
                     </Paper>
                 </Box>
-            </div>
+            </VisibilityProvider>
             <CssBaseline />
         </ThemeProvider>
     );

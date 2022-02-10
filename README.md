@@ -18,6 +18,7 @@ React / Typescript Catalogue for PDM, complete with test driving and purchasing
 - Buy vehicles from the catalogue
 - Finance vehicles
 - View Outstanding Balances neatly organised in a menu
+- Choose custom RGB colours for your vehicles
 
 ## Instalation
 Download the latest version from the releases. Note that the master branch is not considered the most stable branch and you should not build from master unless you know what you're doing.
@@ -34,9 +35,7 @@ CREATE TABLE `vehicle_finance` (
     `warning` TINYINT(4) NULL DEFAULT '0',
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `citizenid` (`citizenid`) USING BTREE,
-    INDEX `plate` (`plate`) USING BTREE,
-    CONSTRAINT `citizenid` FOREIGN KEY (`citizenid`) REFERENCES `qbcore`.`players` (`citizenid`) ON UPDATE NO ACTION ON DELETE CASCADE,
-    CONSTRAINT `plate` FOREIGN KEY (`plate`) REFERENCES `qbcore`.`player_vehicles` (`plate`) ON UPDATE NO ACTION ON DELETE CASCADE
+    INDEX `plate` (`plate`) USING BTREE
 ) COLLATE='utf8_general_ci' ENGINE=InnoDB AUTO_INCREMENT=1;
 
 ```
@@ -53,6 +52,7 @@ CREATE TABLE `vehicle_finance` (
     "time": 120                                                                       // Time (in seconds) of the test drive
   },
   "canbuy": true,								      // Set to false to disable buying vehicles
+  "colours": true,                                                                    // Set to false to disable custom RGB colours      
   "limit": {                                              
     "enabled": true,                                                                  // Set to true to restrict usage when car dealers are online                                  
     "jobname": "cardealer",                                                           // Name of car dealer job
@@ -62,7 +62,8 @@ CREATE TABLE `vehicle_finance` (
     "installment_percent": 10,                                                        // Percentage cost of finance installments
     "runs_on": 1,                                                                     // The day of the week the installments are taken 1 = monday
     "runs_at": "18:30"                                                                // The time of day the installments are taken in 24h format
-  }
+  },
+  "qbtarget": true                                                                    // Enable qb-target by default  
 }
 ```
 
@@ -71,32 +72,11 @@ This data is matching that of the shared.lua of the offical qbcore repository at
 
 ## Usage
 
-To open trigger the event `mojito_pdm:client:open`, you can do this with 3D text, DrawTextUI or qb-target like so:
+By default, the resource is configured with qb-target however if you wish to disable this and do it your own way you can do the following: 
+
+To open the catalogue trigger the event `mojito_pdm:client:open`
 To open the propmt to check finance trigger the event `mojito_pdm:client:check_finance`
 
-```lua
-["mojito_pdm"] = {
-	name="mojito_pdm",
-	coords=vector3(-55.17767, -1096.946, 26.62873),	
-	radius=0.4,
-	useZ=true,
-	options = {
-		{
-			type="client",
-			event="mojito_pdm:client:open",
-			icon="fas fa-book-open",
-			label="Open Catalogue"
-		},
-		{
-			type="client",
-			event="mojito_pdm:client:check_finance",
-			icon="fas fa-comment-dollar",
-			label="Check Finance"
-		}
-	},
-	distance=1.0
-}
-```
 
 ## Building
 
