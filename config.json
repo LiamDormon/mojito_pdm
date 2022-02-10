@@ -16,5 +16,6 @@
     "installment_percent": 20,
     "runs_on": 1,
     "runs_at": "18:30"
-  }
+  },
+  "qbtarget": true
 }

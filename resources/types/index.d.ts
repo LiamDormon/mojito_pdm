@@ -30,4 +30,5 @@ export interface IConfig {
   canbuy: boolean;
   limit: ILimit;
   finance: IFinance;
+  qbtarget: boolean;
 }
