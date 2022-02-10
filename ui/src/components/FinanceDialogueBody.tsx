@@ -10,6 +10,7 @@ import {
 import {fetchNui} from "../utils/fetchNui";
 import {RgbColorPicker, RgbColor} from "react-colorful";
 import './colourpicker.css'
+import {useVisibility} from "../providers/visibility";
 
 interface IFinanceDialogueBody {
     spawncode: string;
@@ -32,6 +33,7 @@ const interestRates: iInterest = {
 const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, setDialogueOpen, setModalOpen}) => {
     const [downpay, setDownpay] = useState(20)
     const [colour, setColour] = useState<RgbColor>({r: 0, g: 0, b:0})
+    const {setVisible} = useVisibility()
 
     const handleClose = () => {
         setDialogueOpen(false)
@@ -48,14 +50,7 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
                 colour: colour
             })
             await fetchNui("exit")
-            window.dispatchEvent(
-                new MessageEvent("message", {
-                    data: {
-                        action: "setVisible",
-                        data: false,
-                    },
-                })
-            );
+            setVisible(false)
         } catch (e) {
             console.error(e)
         }

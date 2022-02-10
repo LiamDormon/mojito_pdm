@@ -9,6 +9,7 @@ import {
 import {fetchNui} from "../utils/fetchNui"
 import {RgbColorPicker, RgbColor} from 'react-colorful'
 import './colourpicker.css';
+import {useVisibility} from "../providers/visibility";
 
 interface IPurchaseDialogueBody {
     spawncode: string;
@@ -22,6 +23,7 @@ const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price
     const handleClose = () => {
         setDialogueOpen(false)
     }
+    const {setVisible} = useVisibility()
 
     const handleAccept = async () => {
         setDialogueOpen(false)
@@ -33,14 +35,7 @@ const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price
                 colour: colour
             })
             await fetchNui("exit")
-            window.dispatchEvent(
-                new MessageEvent("message", {
-                    data: {
-                        action: "setVisible",
-                        data: false,
-                    },
-                })
-            );
+            setVisible(false)
         } catch (e) {
             console.error(e)
         }

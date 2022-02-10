@@ -13,6 +13,7 @@ import CategorySelect from "./CategorySelect";
 import {fetchNui} from "../utils/fetchNui";
 import GlobalState from "../state";
 import {useRecoilState} from "recoil";
+import {useVisibility} from "../providers/visibility";
 
 interface IHeader {
     cat: string;
@@ -21,18 +22,12 @@ interface IHeader {
 
 const Header: React.FC<IHeader> = (props) => {
     const [colorMode, setColorMode] = useRecoilState(GlobalState.theme)
+    const {setVisible} = useVisibility()
 
     const handleExit = async () => {
         try {
             await fetchNui("exit")
-            window.dispatchEvent(
-                new MessageEvent("message", {
-                    data: {
-                        action: "setVisible",
-                        data: false,
-                    },
-                })
-            );
+            setVisible(false);
         } catch (e) {
             console.error(e)
         }
