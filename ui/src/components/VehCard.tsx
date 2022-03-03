@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, memo} from 'react'
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar'
 import AssignmentIcon from '@mui/icons-material/Assignment'
 import {
@@ -94,4 +94,4 @@ const VehCard: React.FC<Car> = ({
     )
 }
 
-export default VehCard
+export default memo(VehCard)

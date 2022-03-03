@@ -1,7 +1,7 @@
 import {atom} from 'recoil'
 
 const GlobalState = {
-    canbuy: atom<boolean>({
+    canBuy: atom<boolean>({
         key: "canbuy",
         default: false
     }),
@@ -9,7 +9,7 @@ const GlobalState = {
         key:"theme",
         default: "light",
     }),
-    customcolours: atom<boolean>({
+    customColours: atom<boolean>({
         key: "customcolours",
         default: false
     })

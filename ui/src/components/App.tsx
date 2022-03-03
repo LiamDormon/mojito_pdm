@@ -9,8 +9,10 @@ import Paper from '@mui/material/Paper'
 import {blue, grey} from '@mui/material/colors';
 import {CssBaseline} from "@mui/material";
 import {useSetRecoilState, useRecoilValue} from 'recoil'
-import GlobalState from "../state";
+import GlobalState from "../state/global.state";
 import {VisibilityProvider} from "../providers/visibility";
+import {useNuiEvent} from "../hooks/useNuiEvent";
+import CarState from "../state/cars.state";
 
 debugData([
     {
@@ -21,8 +23,11 @@ debugData([
 
 const App: React.FC = () => {
     const mode = useRecoilValue(GlobalState.theme)
-    const setBuyEnabled = useSetRecoilState(GlobalState.canbuy)
-    const setColoursEnabled = useSetRecoilState(GlobalState.customcolours)
+    const setBuyEnabled = useSetRecoilState(GlobalState.canBuy)
+    const setColoursEnabled = useSetRecoilState(GlobalState.customColours)
+    const setCars = useSetRecoilState(CarState.rawCars)
+
+    useNuiEvent<Car[]>('setCars', setCars)
 
     useEffect(() => {
         fetchNui<{ buy: boolean, colours: boolean }>("fetchconfig").then((data) => {

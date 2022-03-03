@@ -11,7 +11,7 @@ import {RgbColorPicker, RgbColor} from 'react-colorful'
 import './colourpicker.css';
 import {useVisibility} from "../providers/visibility";
 import {useRecoilValue} from "recoil";
-import GlobalState from "../state";
+import GlobalState from "../state/global.state";
 
 interface IPurchaseDialogueBody {
     spawncode: string;
@@ -26,7 +26,7 @@ const PurchaseDialogueBody: React.FC<IPurchaseDialogueBody> = ({spawncode, price
         setDialogueOpen(false)
     }
     const {setVisible} = useVisibility()
-    const coloursEnabled = useRecoilValue(GlobalState.customcolours)
+    const coloursEnabled = useRecoilValue(GlobalState.customColours)
 
     const handleAccept = async () => {
         setDialogueOpen(false)

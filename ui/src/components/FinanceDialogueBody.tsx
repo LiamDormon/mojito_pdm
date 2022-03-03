@@ -12,7 +12,7 @@ import {RgbColorPicker, RgbColor} from "react-colorful";
 import './colourpicker.css'
 import {useVisibility} from "../providers/visibility";
 import {useRecoilValue} from "recoil";
-import GlobalState from "../state";
+import GlobalState from "../state/global.state";
 
 interface IFinanceDialogueBody {
     spawncode: string;
@@ -36,7 +36,7 @@ const FinanceDialogueBody: React.FC<IFinanceDialogueBody> = ({spawncode, price, 
     const [downpay, setDownpay] = useState(20)
     const [colour, setColour] = useState<RgbColor>({r: 0, g: 0, b:0})
     const {setVisible} = useVisibility()
-    const coloursEnabled = useRecoilValue(GlobalState.customcolours)
+    const coloursEnabled = useRecoilValue(GlobalState.customColours)
 
     const handleClose = () => {
         setDialogueOpen(false)
