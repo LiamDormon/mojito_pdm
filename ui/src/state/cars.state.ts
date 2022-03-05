@@ -16,7 +16,7 @@ const CarState = {
             const cars: Car[] = get(CarState.rawCars)
             const searchCategory: string = get(CarState.categorySearch).trim()
 
-            return !searchCategory ? cars : [...cars].filter(item => item.category == searchCategory)
+            return !searchCategory ? cars : [...cars].filter(item => item.category === searchCategory)
         }
     })
 }

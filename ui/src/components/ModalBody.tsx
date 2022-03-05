@@ -46,7 +46,7 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
     useEffect(() => {
         if (visible) return
         setOpen(false)
-    }, [visible])
+    }, [visible, setOpen])
 
     const handleClose = () => {
         setOpen(false)
