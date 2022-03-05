@@ -67,8 +67,7 @@ CREATE TABLE `vehicle_finance` (
 }
 ```
 
-To edit car information use `ui/src/cars.json` and compile, do this from the latest tagged version of the source code - the master branch is not considered stable.
-This data is matching that of the shared.lua of the offical qbcore repository at the time of writing, some vehicles are missing and contributing is very much appreciated and credit will be given.
+By default `mojito_pdm` comes with some preconfigured vehicles from the base build (DLC content is not included). To add more cars simply add to the `cars.json` file, this no longer requires a re-build and changes will be seen after restarting the resource.
 
 ## Usage
 
