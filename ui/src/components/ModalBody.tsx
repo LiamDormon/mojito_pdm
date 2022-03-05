@@ -1,11 +1,12 @@
-import React, {Dispatch, useState, SetStateAction} from 'react'
+import React, {Dispatch, useState, SetStateAction, useEffect} from 'react'
 import {useTheme} from "@mui/material/styles";
 import {Button, Stack, Typography, LinearProgress, Slide, Dialog} from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
 import PurchaseDialogueBody from "./PurchaseDialogueBody";
-import GlobalState from '../state'
+import GlobalState from '../state/global.state'
 import {useRecoilValue} from "recoil";
 import FinanceDialogueBody from "./FinanceDialogueBody";
+import {useVisibility} from "../providers/visibility";
 
 function getModalStyle() {
     return {
@@ -40,6 +41,12 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
     const theme = useTheme()
     const [pDialogueOpen, setpDialogueOpen] = useState(false) // Purchase Dialogue
     const [fDialogueOpen, setfDialogueOpen] = useState(false) // Finance Dialogue
+    const {visible} = useVisibility()
+
+    useEffect(() => {
+        if (visible) return
+        setOpen(false)
+    }, [visible])
 
     const handleClose = () => {
         setOpen(false)
@@ -52,7 +59,7 @@ const ModalBody: React.FC<Modal> = ({name, brand, description, price, trunkspace
         setfDialogueOpen(false)
     }
 
-    const buyEnabled = useRecoilValue(GlobalState.canbuy)
+    const buyEnabled = useRecoilValue(GlobalState.canBuy)
 
     return (
         <>

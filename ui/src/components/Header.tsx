@@ -11,16 +11,11 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import logo from '../logo.png';
 import CategorySelect from "./CategorySelect";
 import {fetchNui} from "../utils/fetchNui";
-import GlobalState from "../state";
+import GlobalState from "../state/global.state";
 import {useRecoilState} from "recoil";
 import {useVisibility} from "../providers/visibility";
 
-interface IHeader {
-    cat: string;
-    setCat: Dispatch<SetStateAction<string>>
-}
-
-const Header: React.FC<IHeader> = (props) => {
+const Header: React.FC = () => {
     const [colorMode, setColorMode] = useRecoilState(GlobalState.theme)
     const {setVisible} = useVisibility()
 
@@ -44,7 +39,7 @@ const Header: React.FC<IHeader> = (props) => {
                     <img src={logo} height="100px" alt=""/>
                 </Typography>
 
-                <CategorySelect {...props} />
+                <CategorySelect/>
                 <IconButton sx={{ml: 1}} onClick={handleThemeswitch} color="inherit">
                     {colorMode === 'dark' ? <Brightness7Icon/> : <Brightness4Icon/>}
                 </IconButton>

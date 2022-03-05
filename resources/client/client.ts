@@ -37,6 +37,11 @@ if (Config.qbtarget) {
   );
 }
 
+setTimeout(() => {
+  const RawCarsJSON = LoadResourceFile(GetCurrentResourceName(), 'cars.json')
+  utils.SendUIMessage('setCars', JSON.parse(RawCarsJSON))
+}, 1000)
+
 on('mojito_pdm:client:open', async () => {
   const serverResp = await utils.emitNetPromise<ServerPromiseResp<number>>('fetch:pdm_online', {});
   if (Config.limit.enabled && serverResp.data > Config.limit.count)

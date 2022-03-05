@@ -7,17 +7,15 @@ import {
     SelectChangeEvent
 } from '@mui/material'
 import {useTheme} from "@mui/material/styles";
+import CarState from "../state/cars.state";
+import {useRecoilState} from "recoil";
 
-interface ICategorySelect {
-    cat: string;
-    setCat: Dispatch<SetStateAction<string>>
-}
-
-const CategorySelect: React.FC<ICategorySelect> = ({cat, setCat}) => {
+const CategorySelect: React.FC = () => {
     const theme = useTheme()
+    const [category, setCategory] = useRecoilState(CarState.categorySearch)
 
     const handleChange = (event: SelectChangeEvent) => {
-        setCat(event.target.value)
+        setCategory(event.target.value)
     };
 
     return (
@@ -28,7 +26,7 @@ const CategorySelect: React.FC<ICategorySelect> = ({cat, setCat}) => {
                     <Select sx={{color: "white"}}
                             labelId="demo-simple-select-outlined-label"
                             id="demo-simple-select-outlined"
-                            value={cat}
+                            value={category}
                             onChange={handleChange}
                             label="Category"
                     >
