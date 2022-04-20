@@ -7,7 +7,7 @@ const path = require("path");
 const RELEASE_PATH = path.resolve(__dirname, "release");
 const RESOURCE_PATH = path.resolve(RELEASE_PATH, "mojito_pdm");
 
-const FILES = ["fxmanifest.lua", "config.json", "README.md", "LICENSE"];
+const FILES = ["fxmanifest.lua", "config.json", "README.md", "LICENSE", "cars.json"];
 
 const TYPESCRIPT_BUILD_SRC = path.resolve(__dirname, "resources", "dist");
 const UI_BUILD_SRC = path.resolve(__dirname, "ui", "build");
